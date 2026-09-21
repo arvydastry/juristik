@@ -4,6 +4,8 @@ Avelianaris, UAB (prekės ženklas **Juristik**) svetainės pirmo puslapio dizai
 [„Business 3“](https://themenectar.com/salient/business-3/). Svetainė bus daroma su WordPress ir Salient tema,
 todėl makete naudojami tik tokie sprendimai, kuriuos Salient atkartoja savo elementais.
 
+**Peržiūra:** https://arvydastry.github.io/juristik/
+
 Klientas norėjo konservatyvaus, statiško dizaino — puslapyje nėra video, parallax, slenkančių juostų ar įslinkimo
 animacijų; užvedus pelę keičiasi tik spalva.
 

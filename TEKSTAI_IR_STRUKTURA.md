@@ -16,10 +16,16 @@ naudojamos laisvos licencijos Pexels nuotraukos, o įmonės duomenys — demonst
 >
 > **2026-09-21 (dar vėliau): pašalinta sekcija „Kainos“** (planai ir kainos skaičiuoklė) ir įrašyti **tikri įmonės rekvizitai** (Avelianaris, UAB).
 
+**Publikuota:** kodas — https://github.com/arvydastry/juristik (vieša repozitorija) · peržiūra — **https://arvydastry.github.io/juristik/**
+(GitHub Pages iš `main` šakos šaknies; puslapis turi `noindex, nofollow`). Atnaujinimas: `python3 build.py` → `git add -A && git commit` → `git push` —
+GitHub Pages persidiegia pats per 1–3 min.
+
 **Failai:**
 
 | Failas | Paskirtis |
 |---|---|
+| `index.html` | Tas pats puslapis su vietinėmis nuotraukomis — jį rodo **GitHub Pages** (generuoja `build.py`) |
+| `README.md` | Trumpas repozitorijos aprašas |
 | `maketas.html` | Pagrindinis dizaino maketas (nuotraukos ir video kraunami iš Pexels — reikia interneto) |
 | `maketas_lokalus.html` | Tas pats maketas su vietinėmis nuotraukomis iš `nuotraukos/` (video lieka nuotoliniai) |
 | `deploy/` | Visiškai savarankiška versija (vietinės nuotraukos **ir** video) — Netlify / hostingui; `_headers`, `robots.txt`, `.htaccess` |
