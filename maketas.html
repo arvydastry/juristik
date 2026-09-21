@@ -1,0 +1,1727 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Juristik — buhalterinė apskaita ir mokesčiai verslui</title>
+<meta name="description" content="Dizaino maketas: pilna buhalterinė apskaita, mokesčių deklaravimas, darbo užmokestis, įmonių steigimas. Aiški kainodara sutartyje ir asmeninis buhalteris.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="logo/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="logo/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="logo/favicon-192.png">
+<link rel="apple-touch-icon" href="logo/apple-touch-icon.png">
+<meta name="theme-color" content="#02325D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap">
+<style>
+/* ============================================================
+   BUHALTERIJOS DEMO — dizaino maketas (v3 · konservatyvi, statiška versija)
+   Kryptis: Salient „Business 3" (Alegreya Sans + Roboto)
+   Paletė: tamsus jūrinis mėlynas, firminė mėlyna, prislopintas terakotos akcentas.
+   Judesys: tik funkcinis (meniu, akordeonas) ir trumpi spalvos perėjimai užvedus.
+   Nėra video, parallax, slenkančių juostų, įslinkimo animacijų, individualaus žymeklio.
+   ============================================================ */
+:root{
+  --paper:#FFFFFF;
+  --mist:#EDF2FA;          /* šaltas atspalvis (Salient #eaf1fd) */
+  --sand:#FAF3EF;          /* šiltas atspalvis (Salient #fff0ed) */
+  --ink:#0B1626;           /* beveik juoda, jūrinė */
+  --navy:#122740;          /* tamsios sekcijos */
+  --navy-2:#0A1A2C;
+  --brand:#1B4B8F;         /* firminė mėlyna */
+  --brand-hi:#163E78;
+  --sky:#5694FF;           /* šviesi mėlyna ant tamsaus (Salient) */
+  --ember:#C9622F;         /* prislopintas Salient #ff5433 */
+  --ember-hi:#B25425;
+  --mute:#5A6A7E;
+  --mute-2:#8894A5;
+  --line:#DEE5EF;
+  --line-2:#EDF1F7;
+  --line-d:rgba(255,255,255,.14);
+  --disp:"Alegreya Sans",Georgia,"Times New Roman",serif;
+  --body:"Roboto",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  --pad:clamp(20px,4.6vw,72px);
+  --maxw:1320px;
+  --r:4px;
+  --r-lg:6px;
+  --t:.2s ease;            /* vienintelis „dekoratyvus“ perėjimas — spalvos pokytis užvedus */
+  --sh-1:0 1px 2px rgba(11,22,38,.06), 0 4px 12px rgba(11,22,38,.05);
+  --sh-2:0 2px 6px rgba(11,22,38,.06), 0 10px 28px rgba(11,22,38,.08);
+  --sh-3:0 4px 12px rgba(11,22,38,.08), 0 18px 44px rgba(11,22,38,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body);font-size:17px;line-height:1.7;color:var(--ink);
+  background:var(--paper);-webkit-font-smoothing:antialiased;
+  overflow-x:clip;               /* clip, o ne hidden — kitaip lūžta position:sticky */
+}
+@supports not (overflow:clip){ body{overflow-x:hidden} }
+img,video{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0}
+:focus-visible{outline:2px solid var(--ember);outline-offset:3px}
+::selection{background:var(--ink);color:#fff}
+
+/* ---------- primityvai ---------- */
+.wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+.sec{padding:clamp(64px,7.5vw,112px) 0;position:relative}
+.sec-sm{padding:clamp(48px,5.5vw,80px) 0;position:relative}
+
+h1,h2,h3,h4{font-family:var(--disp);font-weight:500;letter-spacing:-.01em;text-wrap:balance}
+.d1{font-size:clamp(36px,4.4vw,58px);line-height:1.1}
+.d2{font-size:clamp(28px,3.1vw,40px);line-height:1.2}
+.d3{font-size:clamp(20px,1.8vw,25px);line-height:1.32}
+.d4{font-size:19px;line-height:1.4}
+.lead{font-size:clamp(16.5px,1.3vw,18.5px);line-height:1.72;color:var(--mute)}
+.small{font-size:14.5px;line-height:1.65;color:var(--mute)}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:11px;font-size:11.5px;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--brand);font-family:var(--body);
+}
+.eyebrow::before{content:"";width:22px;height:2px;background:var(--ember);flex:none}
+.eyebrow.on-dark{color:#fff}
+.eyebrow.on-dark::before{background:var(--sky)}
+
+.sec-head{max-width:760px;margin-bottom:clamp(34px,4vw,54px)}
+.sec-head .d2{margin:16px 0 18px}
+.sec-head.wide{max-width:900px}
+.head-row{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:clamp(34px,4vw,54px)}
+.head-row .sec-head{margin-bottom:0}
+
+/* ---------- mygtukai: užvedus keičiasi tik spalva ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:11px;
+  font-family:var(--body);font-size:14.5px;font-weight:500;letter-spacing:.01em;
+  padding:16px 30px;border-radius:var(--r);border:1px solid transparent;
+  transition:background-color var(--t),color var(--t),border-color var(--t);
+}
+.btn svg{width:16px;height:16px;flex:none}
+.btn-brand{background:var(--brand);color:#fff}
+.btn-brand:hover{background:var(--ink)}
+.btn-ember{background:var(--ember);color:#fff}
+.btn-ember:hover{background:var(--ember-hi)}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-ink:hover{background:var(--brand)}
+.btn-line{border-color:#C9D3E0;color:var(--ink)}
+.btn-line:hover{border-color:var(--ink);background:var(--ink);color:#fff}
+.btn-ghost{border-color:rgba(255,255,255,.4);color:#fff}
+.btn-ghost:hover{background:#fff;color:var(--ink);border-color:#fff}
+.btn-white{background:#fff;color:var(--ink)}
+.btn-white:hover{background:var(--mist)}
+
+.alink{
+  display:inline-flex;align-items:center;gap:10px;font-size:12.5px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink);transition:color var(--t)
+}
+.alink svg{width:15px;height:15px}
+.alink:hover{color:var(--ember)}
+.alink.on-dark{color:#fff}
+.alink.on-dark:hover{color:var(--sky)}
+
+/* ============================================================
+   VIRŠUTINĖ JUOSTA + MENIU
+   ============================================================ */
+@media(min-width:901px){:root{--tb:42px}}
+:root{--navw:1720px}                      /* antraštė platesnė už turinį — Salient „Full Width Header“ */
+.topbar{background:var(--ink);color:rgba(255,255,255,.7);font-size:13px;position:relative;z-index:60}
+.topbar .wrap{max-width:var(--navw);display:flex;align-items:center;justify-content:space-between;gap:24px;height:42px}
+.topbar a{transition:color var(--t)}
+.topbar a:hover{color:#fff}
+.tb-l{display:flex;align-items:center;gap:26px}
+.tb-l span{display:inline-flex;align-items:center;gap:8px}
+.tb-l svg{width:14px;height:14px;opacity:.7}
+.tb-r{display:flex;align-items:center;gap:18px}
+.tb-r a{display:inline-flex;align-items:center;gap:8px}
+.tb-r a::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ember)}
+@media(max-width:900px){.topbar{display:none}}
+
+/* antraštė visada matoma (lipni); permatoma tik pačiame viršuje virš hero nuotraukos */
+header{position:sticky;top:0;z-index:70}
+.nav{background:transparent;border-bottom:1px solid transparent;transition:background-color var(--t),border-color var(--t)}
+.nav .wrap{max-width:var(--navw);display:flex;align-items:stretch;justify-content:space-between;gap:20px;height:92px}
+.on-hero .nav{border-bottom-color:rgba(255,255,255,.13)}
+header.solid .nav{background:#fff;border-bottom-color:var(--line)}
+header.solid .nav .wrap{height:76px}
+
+/* logotipas: tamsus variantas baltai antraštei, baltas — permatomai antraštei virš hero ir atvertam mobiliam meniu
+   (Salient: „Logo“ + „Light logo for transparent header“) */
+.logo{display:inline-flex;align-items:center;flex:none;align-self:center}
+.logo img{display:block;height:44px;width:auto}
+.logo .lg-light{display:none}
+.on-hero .logo .lg-dark,body.menu-open header .logo .lg-dark{display:none}
+.on-hero .logo .lg-light,body.menu-open header .logo .lg-light{display:block}
+footer .logo img{height:50px}
+
+/* ---------- pagrindinis meniu ---------- */
+nav.main{margin-left:auto;display:flex;align-items:stretch}
+.menu{list-style:none;display:flex;align-items:stretch}
+.menu > li{position:relative;display:flex;align-items:stretch}
+.menu > li.has-mega{position:static}
+.menu > li > a{
+  position:relative;display:inline-flex;align-items:center;gap:6px;padding:0 14px;
+  font-size:15px;font-weight:500;white-space:nowrap;transition:color var(--t)
+}
+/* 2 px linija ant antraštės apatinio krašto — aktyvus / užvestas punktas */
+.menu > li > a::after{
+  content:"";position:absolute;left:14px;right:14px;bottom:-1px;height:2px;background:var(--ember);
+  opacity:0;transition:opacity var(--t)
+}
+.menu > li:hover > a::after,.menu > li:focus-within > a::after,.menu > li.open > a::after,.menu > li.is-current > a::after{opacity:1}
+.menu > li:hover > a,.menu > li:focus-within > a,.menu > li.open > a{color:var(--ember)}
+.on-hero .menu > li > a{color:#fff}
+.on-hero .menu > li:hover > a,.on-hero .menu > li:focus-within > a,.on-hero .menu > li.open > a{color:#fff}
+.on-hero .menu > li > a::after{background:#fff}
+.menu .chev{width:11px;height:11px;flex:none}
+
+/* pločio pakopos: šeši ilgi punktai + kalbos + CTA turi tilpti LT, EN ir DE kalbomis.
+   Išmatuota naršyklėje su „Juristik“ logotipu (44 px aukščio ≈ 138 px pločio): kiekvienoje pakopoje lieka ≥ 40 px atsargos. */
+@media(max-width:1699px){                                   /* B: 1540–1699 */
+  .nav .wrap,.topbar .wrap{padding-left:44px;padding-right:44px}
+  .mega .mega-in{padding-left:44px;padding-right:44px}
+  .menu > li > a{padding:0 13px}
+  .menu > li > a::after{left:13px;right:13px}
+}
+@media(max-width:1539px){                                   /* C: 1400–1539 */
+  .nav .wrap,.topbar .wrap{padding-left:32px;padding-right:32px}
+  .mega .mega-in{padding-left:32px;padding-right:32px}
+  .nav .wrap{gap:14px}
+  .menu > li > a{padding:0 11px;font-size:14.5px;gap:5px}
+  .menu > li > a::after{left:11px;right:11px}
+  header .nav-cta{gap:10px;margin-left:4px}
+  header .nav-cta .btn{padding:14px 20px}
+}
+@media(max-width:1399px){                                   /* D: 1366–1399 */
+  .menu > li > a{padding:0 10px}
+  .menu > li > a::after{left:10px;right:10px}
+  header .nav-cta .btn svg{display:none}
+}
+/* žemiau 1366 px šeši punktai nebetelpa — įsijungia mobilus meniu (Salient: Header → Mobile Breakpoint) */
+@media(max-width:1365px){nav.main{display:none}}
+
+/* ---------- išskleidžiami skydeliai: paprastas atsiradimas, be judesio ---------- */
+.drop,.mega{color:var(--ink);background:#fff;opacity:0;visibility:hidden;transition:opacity .16s ease,visibility .16s}
+.drop{
+  position:absolute;top:100%;left:-8px;min-width:408px;padding:10px;
+  border:1px solid var(--line);border-top:0;border-radius:0 0 var(--r-lg) var(--r-lg);box-shadow:var(--sh-2);
+}
+.has-drop:hover > .drop,.has-drop:focus-within > .drop,.has-drop.open > .drop{opacity:1;visibility:visible}
+/* paspaudus patį punktą (pvz. „Paslaugos“ → slenkama į sekciją) skydelis slepiamas, kol pelė nepaliks punkto */
+.menu > li.suppress > .mega,.menu > li.suppress > .drop{opacity:0!important;visibility:hidden!important}
+/* eilutė: ikona + pavadinimas + aprašas (Salient: Icon + Description laukai) */
+.dd-item{
+  display:grid;grid-template-columns:44px minmax(0,1fr) 18px;gap:14px;align-items:center;
+  padding:13px 14px;border-radius:var(--r);transition:background-color var(--t)
+}
+.dd-item:hover,.dd-item:focus-visible{background:var(--mist)}
+.dd-ic{width:44px;height:44px;border-radius:var(--r);background:var(--mist);display:grid;place-items:center;transition:background-color var(--t)}
+.dd-ic svg{width:19px;height:19px;color:var(--brand);transition:color var(--t)}
+.dd-item:hover .dd-ic,.dd-item:focus-visible .dd-ic{background:var(--brand)}
+.dd-item:hover .dd-ic svg,.dd-item:focus-visible .dd-ic svg{color:#fff}
+.dd-tx b{display:block;font-size:15.5px;font-weight:500;line-height:1.3;transition:color var(--t)}
+.dd-tx small{display:block;font-size:13px;line-height:1.45;color:var(--mute);margin-top:3px;font-weight:400}
+.dd-item:hover .dd-tx b{color:var(--brand)}
+.dd-ar{width:16px;height:16px;color:var(--mute-2);transition:color var(--t)}
+.dd-item:hover .dd-ar,.dd-item:focus-visible .dd-ar{color:var(--ember)}
+
+/* ---------- mega meniu „Paslaugos“ (Salient: 2 lygis = stulpeliai, 3 lygis = nuorodos) ---------- */
+.mega{position:absolute;left:0;right:0;top:calc(100% - 1px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);box-shadow:var(--sh-2)}
+.has-mega:hover > .mega,.has-mega:focus-within > .mega,.has-mega.open > .mega{opacity:1;visibility:visible}
+.mega-in{
+  max-width:var(--navw);margin:0 auto;padding:36px var(--pad) 42px;display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr)) minmax(290px,350px);gap:clamp(26px,3vw,54px)
+}
+.mg-n{display:block;font-size:11px;font-weight:700;letter-spacing:.2em;color:var(--ember);margin-bottom:6px}
+.mg-h{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  font-family:var(--disp);font-size:20px;font-weight:500;line-height:1.25;
+  padding-bottom:13px;margin-bottom:10px;border-bottom:1px solid var(--ink);transition:color var(--t)
+}
+.mg-h svg{width:16px;height:16px;flex:none;color:var(--ember)}
+a.mg-h:hover{color:var(--brand)}
+.mega ul{list-style:none;display:flex;flex-direction:column;gap:1px}
+.mega ul a{
+  display:block;padding:9px 12px;margin-left:-12px;border-radius:var(--r);
+  font-size:15px;line-height:1.35;transition:background-color var(--t),color var(--t)
+}
+.mega ul a:hover,.mega ul a:focus-visible{background:var(--mist);color:var(--brand)}
+.mega-card{position:relative;border-radius:var(--r-lg);overflow:hidden;min-height:250px;background:var(--ink);display:block}
+.mega-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.42}
+.mega-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,26,44,.25),rgba(10,26,44,.92))}
+.mega-card .mc{position:relative;z-index:3;padding:26px;color:#fff;height:100%;min-height:250px;display:flex;flex-direction:column;justify-content:flex-end}
+.mega-card .mc h4{color:#fff;margin-top:12px;font-size:20px;line-height:1.25}
+.mega-card .mc p{font-size:14px;line-height:1.55;color:rgba(255,255,255,.78);margin:8px 0 16px}
+.mega-card:hover .alink{color:var(--sky)}
+@media(max-width:1365px){.mega,.menu .drop{display:none}}
+
+/* ---------- dešinė grupė: kalbos + CTA + burger ---------- */
+.nav-cta{display:flex;align-items:stretch;gap:14px;flex:none;margin-left:10px}
+.nav-cta .btn{padding:15px 24px;white-space:nowrap;align-self:center}
+.lang{position:relative;display:flex;align-items:center}
+.lang::before{content:"";position:absolute;left:-8px;top:50%;height:22px;margin-top:-11px;width:1px;background:var(--line)}
+.on-hero .lang::before{background:rgba(255,255,255,.22)}
+.lang-btn{
+  display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 12px 0 11px;margin-left:6px;border-radius:var(--r);
+  border:1px solid transparent;font-size:12.5px;font-weight:700;letter-spacing:.12em;color:var(--ink);
+  transition:border-color var(--t),color var(--t)
+}
+.lang-btn .globe{width:16px;height:16px}
+.lang-btn .chev{width:10px;height:10px}
+.lang:hover .lang-btn,.lang:focus-within .lang-btn,.lang.open .lang-btn{border-color:var(--line)}
+.on-hero .lang-btn{color:#fff}
+.on-hero .lang:hover .lang-btn,.on-hero .lang.open .lang-btn{border-color:rgba(255,255,255,.4)}
+.lang .drop{left:auto;right:0;min-width:238px;padding:8px}
+.lang-opt{display:grid;grid-template-columns:38px 1fr 16px;gap:12px;align-items:center;padding:9px 10px;border-radius:var(--r);font-size:15px;transition:background-color var(--t),color var(--t)}
+.lang-opt:hover,.lang-opt:focus-visible{background:var(--mist)}
+.lang-opt .lc{display:grid;place-items:center;height:28px;border:1px solid var(--line);border-radius:3px;font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--mute);background:#fff}
+.lang-opt .ok{width:15px;height:15px;color:var(--ember);visibility:hidden}
+.lang-opt.on{color:var(--brand);font-weight:500}
+.lang-opt.on .lc{border-color:var(--brand);color:var(--brand)}
+.lang-opt.on .ok{visibility:visible}
+
+/* burger */
+.burger{display:none;width:46px;height:46px;border:1px solid var(--line);border-radius:var(--r);position:relative;flex:none;align-self:center}
+.burger i{position:absolute;left:13px;height:1.5px;background:var(--ink);width:20px;transition:transform var(--t),opacity var(--t)}
+.burger i:nth-child(1){top:17px}
+.burger i:nth-child(2){top:22.5px}
+.burger i:nth-child(3){top:28px}
+.on-hero .burger{border-color:rgba(255,255,255,.35)}
+.on-hero .burger i{background:#fff}
+@media(max-width:1365px){.burger{display:block}}
+@media(max-width:760px){
+  .nav-cta .btn,.nav-cta .lang{display:none}
+  .nav-cta{margin-left:0}
+  .nav .wrap{height:70px}
+  header.solid .nav .wrap{height:64px}
+  .hero{margin-top:-70px;padding-top:70px}
+  .logo img{height:36px}
+}
+body.menu-open .burger i:nth-child(1){transform:translateY(5.5px) rotate(45deg)}
+body.menu-open .burger i:nth-child(2){opacity:0}
+body.menu-open .burger i:nth-child(3){transform:translateY(-5.5px) rotate(-45deg)}
+/* atidarius mobilų meniu antraštė visada „tamsaus fono“ režimu */
+body.menu-open header .nav{background:transparent!important;border-bottom-color:rgba(255,255,255,.13)!important}
+body.menu-open header .burger{border-color:rgba(255,255,255,.35)}
+body.menu-open header .burger i{background:#fff}
+body.menu-open header .lang-btn{color:#fff}
+body.menu-open header .lang::before{background:rgba(255,255,255,.22)}
+body.menu-open header .nav-cta .btn{display:none}
+
+/* ---------- mobilus meniu: akordeonas (Salient off-canvas „Inline“ dropdown) ---------- */
+.mobile{
+  position:fixed;inset:0;z-index:65;background:var(--ink);color:#fff;padding:112px var(--pad) 120px;
+  opacity:0;visibility:hidden;transition:opacity var(--t),visibility .2s;overflow-y:auto;overscroll-behavior:contain
+}
+@media(max-width:760px){.mobile{padding-top:92px}}
+body.menu-open .mobile{opacity:1;visibility:visible}
+.m-list{list-style:none;border-top:1px solid var(--line-d);max-width:720px}
+.m-list > li{border-bottom:1px solid var(--line-d)}
+.m-link,.m-par{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;text-align:left;color:#fff;
+  font-family:var(--disp);font-size:clamp(21px,5.8vw,27px);font-weight:500;line-height:1.2;padding:16px 0;transition:color var(--t)
+}
+.m-link:hover,.m-par:hover,li.open > .m-par{color:var(--sky)}
+.m-pl{position:relative;width:32px;height:32px;flex:none;border:1px solid rgba(255,255,255,.28);border-radius:50%;transition:background-color var(--t),border-color var(--t)}
+.m-pl i{position:absolute;background:#fff}
+.m-pl i:first-child{left:9px;right:9px;top:15px;height:1.5px}
+.m-pl i:last-child{top:9px;bottom:9px;left:15px;width:1.5px}
+li.open > .m-par .m-pl{background:var(--sky);border-color:var(--sky)}
+li.open > .m-par .m-pl i{background:var(--ink)}
+li.open > .m-par .m-pl i:last-child{display:none}
+.m-sub{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
+.m-sub > div{overflow:hidden;min-height:0}
+li.open > .m-sub{grid-template-rows:1fr}
+.m-sub .m-in{padding:2px 0 22px}
+.m-h{display:block;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--sky);margin:18px 0 6px}
+.m-sub a{display:flex;align-items:baseline;gap:11px;font-size:16px;line-height:1.4;color:rgba(255,255,255,.8);padding:8px 0;transition:color var(--t)}
+.m-sub a::before{content:"";width:10px;height:1px;background:rgba(255,255,255,.35);flex:none;transform:translateY(-4px)}
+.m-sub a:hover{color:#fff}
+.m-sub a.m-all{color:#fff;font-weight:500}
+.m-sub a.m-card{display:block;margin-top:16px;padding:16px 18px;border:1px solid rgba(255,255,255,.18);border-radius:var(--r-lg);background:rgba(255,255,255,.05)}
+.m-sub a.m-card::before{display:none}
+.m-sub a.m-card b{display:block;font-family:var(--disp);font-size:18px;font-weight:500;color:#fff;margin-top:4px}
+.m-sub a.m-card small{display:block;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#E2703A}
+.m-tools{margin-top:30px;display:flex;flex-direction:column;gap:22px;max-width:720px}
+.m-lang-l{display:block;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:10px}
+.m-langs{display:flex;gap:8px;flex-wrap:wrap}
+.m-langs a{display:inline-flex;align-items:center;gap:9px;padding:10px 15px;border:1px solid rgba(255,255,255,.22);border-radius:var(--r);font-size:14.5px;color:rgba(255,255,255,.82);transition:background-color var(--t),border-color var(--t),color var(--t)}
+.m-langs a b{font-size:11.5px;letter-spacing:.12em;font-weight:700}
+.m-langs a:hover{border-color:#fff;color:#fff}
+.m-langs a.on{background:#fff;border-color:#fff;color:var(--ink)}
+.mobile .mb-foot{color:rgba(255,255,255,.65);font-size:15px;display:flex;flex-direction:column;gap:8px}
+.mobile .mb-foot a{color:inherit;transition:color var(--t)}
+.mobile .mb-foot a:hover{color:#fff}
+
+/* ---------- pranešimas (toast) ---------- */
+.toast{
+  position:fixed;left:50%;bottom:30px;z-index:9996;display:flex;align-items:center;gap:12px;transform:translateX(-50%);
+  max-width:min(580px,calc(100vw - 32px));padding:14px 20px 14px 16px;border-radius:var(--r-lg);
+  background:var(--ink);color:#fff;font-size:14px;line-height:1.45;box-shadow:var(--sh-3);border:1px solid rgba(255,255,255,.12);
+  opacity:0;visibility:hidden;transition:opacity var(--t),visibility .2s
+}
+.toast.on{opacity:1;visibility:visible}
+.toast i{width:8px;height:8px;border-radius:50%;background:#E2703A;flex:none}
+@media(max-width:760px){.toast{bottom:74px}}
+
+/* ============================================================
+   HERO — statinė nuotrauka su tamsiu šydu
+   ============================================================ */
+.hero{position:relative;min-height:calc(100svh - var(--tb,0px));display:flex;align-items:flex-end;overflow:hidden;background:var(--navy-2);margin-top:-92px;padding-top:92px}
+.hero-media{position:absolute;inset:0;z-index:0}
+/* nuotrauka apversta horizontaliai: rankų paspaudimas atsiduria dešinėje, o tekstui kairėje lieka ramus tamsus fonas */
+.hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 30%;transform:scaleX(-1)}
+.hero-veil{position:absolute;inset:0;z-index:1;
+  background:
+   linear-gradient(180deg,rgba(10,26,44,.78) 0%,rgba(10,26,44,.30) 30%,rgba(10,26,44,.62) 70%,rgba(10,26,44,.94) 100%),
+   linear-gradient(96deg,rgba(11,22,38,.92) 0%,rgba(11,22,38,.62) 46%,rgba(11,22,38,.08) 100%);
+}
+.hero-in{position:relative;z-index:5;width:100%;padding-bottom:clamp(40px,4.4vw,64px);padding-top:clamp(72px,10vh,110px);color:#fff}
+.hero-in .eyebrow{margin-bottom:22px}
+.hero h1{max-width:17ch;margin-bottom:22px;color:#fff}
+.hero h1 em{font-style:normal;color:#9DBEFF}
+.hero p.lead{max-width:60ch;color:rgba(255,255,255,.86)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px 22px;margin-top:30px;align-items:center}
+
+/* pasitikėjimo juosta */
+.hero-trust{margin-top:clamp(38px,4.6vw,64px);border-top:1px solid rgba(255,255,255,.2);display:grid;grid-template-columns:repeat(4,1fr)}
+.hero-trust div{padding:22px 26px 2px 0;position:relative}
+.hero-trust div + div{padding-left:30px}
+.hero-trust div + div::before{content:"";position:absolute;left:0;top:26px;bottom:8px;width:1px;background:rgba(255,255,255,.18)}
+.hero-trust b{display:block;font-family:var(--disp);font-size:clamp(26px,2.6vw,36px);font-weight:500;line-height:1;color:#fff}
+.hero-trust span{display:block;font-size:13px;color:rgba(255,255,255,.66);margin-top:9px;letter-spacing:.02em}
+@media(max-width:860px){
+ .hero-trust{grid-template-columns:1fr 1fr;gap:0}
+ .hero-trust div{padding:20px 14px 14px 0}
+ .hero-trust div:nth-child(even){padding-left:20px}
+ .hero-trust div:nth-child(odd)::before{display:none}
+ .hero-trust b{font-size:25px}
+}
+/* žemi nešiojamųjų ekranai (pvz. 1440x900): kad pasitikėjimo juosta tilptų */
+@media (min-width:861px) and (max-height:960px){
+  .hero-in{padding-top:clamp(52px,6vh,80px);padding-bottom:32px}
+  .hero .d1{font-size:clamp(34px,3.9vw,52px)}
+  .hero h1{margin-bottom:16px}
+  .hero p.lead{font-size:16.5px;line-height:1.64}
+  .hero-cta{margin-top:22px}
+  .hero-trust{margin-top:clamp(26px,3.2vw,40px)}
+  .hero-trust div{padding-top:18px}
+  .hero-trust b{font-size:clamp(23px,2.2vw,30px)}
+}
+
+/* ============================================================
+   APIE MUS
+   ============================================================ */
+.intro{background:var(--paper)}
+.intro-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(40px,6vw,96px);align-items:center}
+@media(max-width:980px){.intro-grid{grid-template-columns:1fr}}
+.intro-media{position:relative;padding:0 6% 9% 0}
+.intro-media .im-main{border-radius:var(--r-lg);overflow:hidden;aspect-ratio:4/3.1;box-shadow:var(--sh-2)}
+.intro-media .im-main img{width:100%;height:100%;object-fit:cover}
+.intro-media .im-sub{position:absolute;right:0;bottom:0;width:44%;aspect-ratio:1/1;border-radius:var(--r-lg);overflow:hidden;border:6px solid #fff;box-shadow:var(--sh-2)}
+.intro-media .im-sub img{width:100%;height:100%;object-fit:cover}
+.intro-media .im-badge{position:absolute;left:18px;top:18px;background:#fff;border-radius:var(--r-lg);padding:16px 20px;max-width:250px;box-shadow:var(--sh-2);display:flex;align-items:center;gap:13px}
+.intro-media .im-badge b{font-family:var(--disp);font-size:30px;line-height:1;color:var(--brand)}
+.intro-media .im-badge span{font-size:12.5px;line-height:1.4;color:var(--mute);max-width:15ch}
+@media(max-width:600px){.intro-media .im-badge{left:10px;top:10px;padding:12px 14px}}
+
+.pill-list{list-style:none;display:flex;flex-direction:column;margin:28px 0 32px;border-top:1px solid var(--line-2)}
+.pill-list li{display:flex;gap:16px;align-items:flex-start;padding:16px 0;border-bottom:1px solid var(--line-2)}
+.pill-list .ck{width:22px;height:22px;flex:none;margin-top:3px;border-radius:50%;background:var(--mist);display:grid;place-items:center}
+.pill-list .ck svg{width:11px;height:11px;color:var(--brand)}
+.pill-list b{display:block;font-weight:500;font-size:16.5px}
+.pill-list span{display:block;font-size:14.5px;color:var(--mute);margin-top:2px}
+
+/* ============================================================
+   PASLAUGOS — statiškas sąrašas
+   ============================================================ */
+.svc{background:var(--sand)}
+.svc-list{border-top:1px solid rgba(11,22,38,.14);margin:0 -14px}
+.svc-row{
+  display:grid;grid-template-columns:64px minmax(0,1fr) minmax(0,440px) 44px;gap:24px;align-items:center;
+  padding:clamp(20px,2.2vw,28px) 14px;border-bottom:1px solid rgba(11,22,38,.14);
+  transition:background-color var(--t)
+}
+.svc-row:hover{background:#fff}
+.svc-n{font-family:var(--disp);font-size:15px;font-weight:500;color:var(--mute-2);letter-spacing:.06em}
+.svc-t{font-family:var(--disp);font-size:clamp(21px,2.1vw,28px);font-weight:500;line-height:1.2;transition:color var(--t)}
+.svc-row:hover .svc-t{color:var(--brand)}
+.svc-d{font-size:15px;color:var(--mute);line-height:1.6}
+.svc-a{justify-self:end;width:40px;height:40px;border-radius:50%;border:1px solid rgba(11,22,38,.2);display:grid;place-items:center;transition:background-color var(--t),border-color var(--t),color var(--t)}
+.svc-a svg{width:15px;height:15px}
+.svc-row:hover .svc-a{border-color:var(--ember);background:var(--ember);color:#fff}
+@media(max-width:980px){
+  .svc-row{grid-template-columns:44px minmax(0,1fr) 40px;gap:14px}
+  .svc-d{display:none}
+}
+
+/* papildomos paslaugos — paprastos kortelės */
+.addons{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:clamp(28px,3.4vw,44px)}
+@media(max-width:980px){.addons{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.addons{grid-template-columns:1fr}}
+.acard{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:28px 26px 26px;transition:border-color var(--t),box-shadow var(--t)}
+.acard:hover{border-color:#C3CFDF;box-shadow:var(--sh-1)}
+.acard .ai{width:44px;height:44px;border-radius:var(--r);background:var(--mist);display:grid;place-items:center;margin-bottom:18px}
+.acard .ai svg{width:20px;height:20px;color:var(--brand)}
+.acard h4{font-size:19px;margin-bottom:8px}
+.acard p{font-size:14.8px;color:var(--mute);line-height:1.62}
+
+/* ============================================================
+   KODĖL MES — tamsi sekcija su statine nuotrauka fone
+   ============================================================ */
+.why{position:relative;background:var(--navy-2);color:#fff;overflow:hidden}
+.why-media{position:absolute;inset:0;z-index:0}
+.why-media img{width:100%;height:100%;object-fit:cover;opacity:.26}
+.why::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(10,26,44,.94),rgba(10,26,44,.82) 45%,rgba(10,26,44,.96))}
+.why .wrap{position:relative;z-index:2}
+.why .lead{color:rgba(255,255,255,.78)}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.14);border-radius:var(--r-lg);overflow:hidden}
+@media(max-width:980px){.why-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.why-grid{grid-template-columns:1fr}}
+.wcard{background:rgba(10,26,44,.78);padding:34px 30px 32px}
+.wcard .wi{width:46px;height:46px;display:grid;place-items:center;border-radius:var(--r);border:1px solid rgba(255,255,255,.24);margin-bottom:20px}
+.wcard .wi svg{width:20px;height:20px;color:#9DBEFF}
+.wcard h4{font-size:20px;margin-bottom:10px}
+.wcard p{font-size:14.8px;color:rgba(255,255,255,.74);line-height:1.66}
+
+/* ============================================================
+   SKAIČIAI — viena rami eilutė
+   ============================================================ */
+.stats{background:var(--paper);border-bottom:1px solid var(--line)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:var(--r-lg)}
+.stat{padding:30px 28px 28px}
+.stat + .stat{border-left:1px solid var(--line)}
+.stat b{display:block;font-family:var(--disp);font-size:clamp(34px,3.6vw,48px);font-weight:500;line-height:1;color:var(--brand)}
+.stat b i{font-style:normal;color:var(--mute-2);font-size:.62em}
+.stat span{display:block;margin-top:12px;font-size:14.5px;color:var(--mute);max-width:22ch}
+@media(max-width:900px){
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .stat + .stat{border-left:0}
+  .stat:nth-child(even){border-left:1px solid var(--line)}
+  .stat:nth-child(n+3){border-top:1px solid var(--line)}
+}
+
+/* ============================================================
+   KAIP DIRBAME — keturios kortelės viena po kitos
+   ============================================================ */
+.steps{background:var(--mist)}
+.step{
+  position:relative;background:#fff;border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:var(--r-lg);
+  display:grid;grid-template-columns:96px minmax(0,1fr) minmax(0,340px);gap:clamp(22px,3vw,44px);
+  padding:clamp(26px,3.2vw,40px);margin-bottom:16px
+}
+.step:last-child{margin-bottom:0}
+.step-n{font-family:var(--disp);font-size:clamp(40px,4.4vw,60px);line-height:.95;color:#C5D0DF}
+.step h3{margin-bottom:10px}
+.step p{color:var(--mute);font-size:16px}
+.step-meta{border-left:1px solid var(--line);padding-left:clamp(20px,2.5vw,34px);display:flex;flex-direction:column;gap:13px}
+.step-meta div{display:flex;gap:12px;align-items:flex-start;font-size:14.5px}
+.step-meta svg{width:16px;height:16px;flex:none;margin-top:4px;color:var(--brand)}
+.step-meta b{font-weight:500}
+@media(max-width:980px){.step{grid-template-columns:64px minmax(0,1fr)}.step-meta{grid-column:1/-1;border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:18px}}
+
+/* ============================================================
+   ATSILIEPIMAI — statiškas tinklelis
+   ============================================================ */
+.revs{background:var(--paper)}
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:1000px){.rev-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.rev-grid{grid-template-columns:1fr}}
+.rev{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:30px 28px 26px;position:relative;display:flex;flex-direction:column}
+.rev .q{position:absolute;right:24px;top:12px;font-family:var(--disp);font-size:64px;line-height:1;color:var(--line)}
+.rev .stars{display:flex;gap:3px;margin-bottom:16px}
+.rev .stars svg{width:15px;height:15px;color:var(--ember)}
+.rev p{font-size:16px;line-height:1.66;color:#22303F;flex:1}
+.rev .who{margin-top:22px;padding-top:16px;border-top:1px solid var(--line-2);display:flex;align-items:center;gap:13px}
+.rev .av{width:40px;height:40px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-family:var(--disp);font-size:16px;flex:none}
+.rev .who b{display:block;font-size:14.5px;font-weight:500}
+.rev .who div span{display:block;font-size:13px;color:var(--mute)}
+
+/* ============================================================
+   DUK — akordeonas
+   ============================================================ */
+.faq-wrap{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(36px,6vw,90px);align-items:start}
+@media(max-width:980px){.faq-wrap{grid-template-columns:1fr}}
+.acc{border-top:1px solid var(--line)}
+.acc-i{border-bottom:1px solid var(--line)}
+.acc-q{
+  width:100%;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:24px;
+  padding:22px 0;font-family:var(--disp);font-size:clamp(18px,1.6vw,21px);font-weight:500;line-height:1.35;transition:color var(--t)
+}
+.acc-q:hover,.acc-i.open .acc-q{color:var(--brand)}
+.acc-ic{position:relative;width:32px;height:32px;flex:none;border:1px solid #C9D3E0;border-radius:50%;transition:background-color var(--t),border-color var(--t)}
+.acc-ic i{position:absolute;background:var(--ink)}
+.acc-ic i:first-child{left:9px;right:9px;top:15px;height:1.5px}
+.acc-ic i:last-child{top:9px;bottom:9px;left:15px;width:1.5px}
+.acc-i.open .acc-ic{background:var(--brand);border-color:var(--brand)}
+.acc-i.open .acc-ic i{background:#fff}
+.acc-i.open .acc-ic i:last-child{display:none}
+.acc-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.acc-a > div{padding:0 56px 26px 0;color:var(--mute);font-size:16px}
+
+/* ============================================================
+   TINKLARAŠTIS
+   ============================================================ */
+.posts{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:940px){.posts{grid-template-columns:1fr}}
+.post{border-radius:var(--r-lg);overflow:hidden;background:#fff;border:1px solid var(--line);transition:border-color var(--t),box-shadow var(--t)}
+.post:hover{border-color:#C3CFDF;box-shadow:var(--sh-1)}
+.post-ph{position:relative;aspect-ratio:16/10;overflow:hidden}
+.post-ph img{width:100%;height:100%;object-fit:cover}
+.post-ph .cat{position:absolute;left:14px;top:14px;background:#fff;color:var(--ink);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:6px 11px;border-radius:3px}
+.post-b{padding:24px 24px 26px}
+.post-b .date{font-size:12.5px;color:var(--mute-2);letter-spacing:.04em}
+.post-b h4{margin:10px 0 12px;font-size:20px;line-height:1.32;transition:color var(--t)}
+.post:hover h4{color:var(--brand)}
+.post-b p{font-size:14.8px;color:var(--mute)}
+.post-b .alink{margin-top:18px}
+.post:hover .alink{color:var(--ember)}
+
+/* ============================================================
+   CTA JUOSTA — statinė nuotrauka fone
+   ============================================================ */
+.cta{position:relative;overflow:hidden;background:var(--navy)}
+.cta-media{position:absolute;inset:0;z-index:0}
+.cta-media img{width:100%;height:100%;object-fit:cover;opacity:.24}
+.cta::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(105deg,rgba(18,39,64,.95),rgba(18,39,64,.7))}
+.cta .wrap{position:relative;z-index:2;color:#fff;text-align:center;max-width:900px}
+.cta h2{margin-bottom:18px}
+.cta p{color:rgba(255,255,255,.8);max-width:60ch;margin:0 auto 30px}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+/* ============================================================
+   KONTAKTAI
+   ============================================================ */
+.contact-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(36px,5vw,80px);align-items:start}
+@media(max-width:980px){.contact-grid{grid-template-columns:1fr}}
+.cinfo{display:flex;flex-direction:column;margin:28px 0 0;border-top:1px solid var(--line-2)}
+.cinfo a,.cinfo div{display:flex;gap:18px;align-items:flex-start;padding:18px 0;border-bottom:1px solid var(--line-2)}
+.cinfo .ci{width:40px;height:40px;border-radius:var(--r);background:var(--mist);display:grid;place-items:center;flex:none;transition:background-color var(--t)}
+.cinfo .ci svg{width:17px;height:17px;color:var(--brand);transition:color var(--t)}
+.cinfo a:hover .ci{background:var(--brand)}
+.cinfo a:hover .ci svg{color:#fff}
+.cinfo b{display:block;font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mute-2);margin-bottom:4px}
+.cinfo span{display:block;font-size:16.5px}
+.cinfo a span span{transition:color var(--t)}
+.cinfo a:hover span span{color:var(--brand)}
+
+.form{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:clamp(26px,3vw,40px);box-shadow:var(--sh-1)}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:620px){.f-row{grid-template-columns:1fr}}
+/* etiketė virš lauko — klasikinė forma (žymėjime etiketė eina po lauko, todėl column-reverse) */
+.fld{display:flex;flex-direction:column-reverse;gap:7px;margin-bottom:16px}
+.fld label{font-size:13.5px;font-weight:500;color:var(--ink)}
+.fld input,.fld textarea,.fld select{width:100%;padding:13px 14px;border:1px solid #C9D3E0;border-radius:var(--r);background:#fff;font-size:16px;transition:border-color var(--t),box-shadow var(--t)}
+.fld textarea{min-height:128px;resize:vertical}
+.fld input:focus,.fld textarea:focus,.fld select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(27,75,143,.14)}
+.check{display:flex;gap:12px;align-items:flex-start;font-size:13.8px;color:var(--mute);margin:6px 0 20px;cursor:pointer}
+.check input{margin-top:4px;accent-color:var(--brand);width:16px;height:16px;flex:none}
+.form .btn{width:100%;justify-content:center}
+.form-note{margin-top:14px;font-size:13px;color:var(--mute-2);text-align:center}
+
+.map-card{margin-top:24px;border-radius:var(--r-lg);overflow:hidden;position:relative;aspect-ratio:16/8;border:1px solid var(--line);background:var(--mist)}
+.map-card img{width:100%;height:100%;object-fit:cover}
+.map-tag{position:absolute;left:14px;bottom:14px;z-index:2;max-width:calc(100% - 28px);background:#fff;padding:9px 14px;border-radius:var(--r);font-size:13px;line-height:1.45;box-shadow:var(--sh-1)}
+.map-link{position:absolute;right:14px;top:14px;z-index:2;display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;padding:9px 14px;border-radius:var(--r);font-size:13px;font-weight:500;transition:background-color var(--t)}
+.map-link svg{width:14px;height:14px}
+.map-link:hover{background:var(--brand)}
+
+/* ============================================================
+   PORAŠTĖ
+   ============================================================ */
+footer{background:var(--ink);color:rgba(255,255,255,.7);padding-top:clamp(56px,6vw,84px)}
+.f-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.2fr;gap:clamp(28px,4vw,56px);padding-bottom:52px}
+@media(max-width:980px){.f-top{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.f-top{grid-template-columns:1fr}}
+footer h5{font-family:var(--body);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#fff;margin-bottom:18px}
+footer ul{list-style:none;display:flex;flex-direction:column;gap:11px;font-size:15px}
+footer ul a{transition:color var(--t)}
+footer ul a:hover{color:#fff}
+.f-brand p{font-size:15px;margin:20px 0 22px;max-width:34ch}
+.f-req{font-size:13.5px;line-height:1.8;color:rgba(255,255,255,.55)}
+.f-soc{display:flex;gap:9px;margin-top:22px}
+.f-soc a{width:38px;height:38px;border-radius:50%;border:1px solid var(--line-d);display:grid;place-items:center;transition:background-color var(--t),border-color var(--t),color var(--t)}
+.f-soc svg{width:15px;height:15px}
+.f-soc a:hover{background:#fff;color:var(--ink);border-color:#fff}
+.f-bot{border-top:1px solid var(--line-d);padding:22px 0;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;font-size:13.5px}
+.f-bot a{transition:color var(--t)}
+.f-bot a:hover{color:#fff}
+.f-langs{display:inline-flex;gap:2px}
+.f-langs a{padding:3px 9px;font-size:12px;font-weight:700;letter-spacing:.1em;border-radius:3px;transition:background-color var(--t),color var(--t)}
+.f-langs a.on{background:rgba(255,255,255,.12);color:#fff}
+
+/* mobilioji apatinė veiksmų juosta */
+.mbar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;gap:1px;background:var(--line);border-top:1px solid var(--line);visibility:hidden}
+.mbar.on{visibility:visible}
+.mbar a{flex:1;display:flex;align-items:center;justify-content:center;gap:9px;padding:16px 10px;font-size:14.5px;font-weight:500;background:#fff}
+.mbar a svg{width:16px;height:16px}
+.mbar a.p{background:var(--ember);color:#fff}
+@media(max-width:760px){.mbar{display:flex}footer{padding-bottom:60px}}
+
+/* maketo žymė */
+.mock{position:fixed;right:14px;bottom:14px;z-index:9990;background:var(--ink);color:#fff;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;padding:9px 14px;border-radius:100px;box-shadow:var(--sh-2);display:flex;align-items:center;gap:9px;opacity:.92}
+.mock i{width:7px;height:7px;border-radius:50%;background:#E2703A}
+@media(max-width:760px){.mock{display:none}}
+
+/* prieinamumas: sumažintas judesys — išjungiami ir likę trumpi perėjimai */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:.001ms!important;animation:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+<a class="mock" href="#" onclick="return false"><i></i>Dizaino maketas · demo turinys</a>
+
+<!-- ============ VIRŠUTINĖ JUOSTA ============ -->
+<div class="topbar">
+  <div class="wrap">
+    <div class="tb-l">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.4 2.1L8.1 9.6a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.4c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2Z"/></svg>+370 600 00000</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>info@buhalterijosdemo.lt</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><em style="font-style:normal" data-i18n="tb.hours">I–V 8:00–17:00</em></span>
+    </div>
+    <div class="tb-r">
+      <a href="#kontaktai" data-i18n="tb.consult">Nemokama konsultacija</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MENIU ============
+     Struktūra atitinka Salient meniu logiką:
+     · „Paslaugos“ — mega meniu (2 lygis = stulpeliai, 3 lygis = nuorodos)
+     · „Buhalterinė apskaita“, „Užsieniečių įdarbinimas“ — paprasti dropdown su ikona ir aprašu
+     · kalbų perjungiklis — WPML / Polylang meniu punktas (LT · EN · DE)
+     · „Gauti pasiūlymą“ — meniu punktas su „Button Style“
+-->
+<header id="hdr" class="on-hero">
+ <div class="nav">
+  <div class="wrap">
+    <a class="logo" href="#" aria-label="Juristik — pradžia">
+      <img class="lg-dark" src="logo/juristik-logo.png" alt="Juristik" width="900" height="288">
+      <img class="lg-light" src="logo/juristik-logo-white.png" alt="" width="900" height="288" aria-hidden="true">
+    </a>
+
+    <nav class="main" aria-label="Pagrindinis meniu">
+      <ul class="menu" id="menu">
+        <li class="is-current"><a href="#pradzia" aria-current="page"><span class="lbl" data-i18n="nav.home">Pradžia</span></a></li>
+
+        <!-- PASLAUGOS — mega meniu -->
+        <li class="has-mega">
+          <a href="#paslaugos" aria-haspopup="true" aria-expanded="false"><span class="lbl" data-i18n="nav.services">Paslaugos</span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></a>
+          <div class="mega">
+            <div class="mega-in">
+              <div class="mg-col" style="--i:0">
+                <span class="mg-n">01</span>
+                <a class="mg-h" href="#" data-soon><span data-i18n="mg.c1">Įmonių steigimas</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                <ul>
+                  <li><a href="#" data-soon data-i18n="mg.c1.1">UAB, MB įmonių steigimas</a></li>
+                  <li><a href="#" data-soon data-i18n="mg.c1.2">UAB, MB įmonių pardavimas</a></li>
+                  <li><a href="#" data-soon data-i18n="mg.c1.3">Įmonės registracijos adresas</a></li>
+                  <li><a href="#" data-soon data-i18n="mg.c1.4">Laikinojo įdarbinimo įmonių registravimas</a></li>
+                </ul>
+              </div>
+              <div class="mg-col" style="--i:1">
+                <span class="mg-n">02</span>
+                <span class="mg-h"><span data-i18n="mg.c2">Pakeitimai ir teisė</span></span>
+                <ul>
+                  <li><a href="#" data-soon data-i18n="mg.c2.1">Įmonės pavadinimo keitimas</a></li>
+                  <li><a href="#" data-soon data-i18n="mg.c2.2">Įstatų keitimas</a></li>
+                  <li><a href="#" data-soon data-i18n="mg.c2.3">Vadovo keitimas</a></li>
+                  <li><a href="#" data-soon data-i18n="mg.c2.4">Įmonės likvidavimas</a></li>
+                  <li><a href="#" data-soon data-i18n="mg.c2.5">Teisinės paslaugos</a></li>
+                </ul>
+              </div>
+              <div class="mg-col" style="--i:2">
+                <span class="mg-n">03</span>
+                <span class="mg-h"><span data-i18n="mg.c3">Licencijos ir dokumentai</span></span>
+                <ul>
+                  <li><a href="#" data-soon data-i18n="mg.c3.1">Transporto licencija</a></li>
+                  <li><a href="#" data-soon data-i18n="mg.c3.2">A1 forma</a></li>
+                  <li><a href="#" data-soon data-i18n="mg.c3.3">ESI išrašas</a></li>
+                  <li><a href="#" data-soon data-i18n="mg.c3.4">JANGIS pildymas</a></li>
+                  <li><a href="#" data-soon data-i18n="mg.c3.5">Darbų saugos paslaugos</a></li>
+                </ul>
+              </div>
+              <!-- „Konsultacija VERSLO PRADŽIOS klausimais“ — išskirtas punktas kaip kortelė -->
+              <a class="mega-card" href="#" data-soon data-soon-label="mg.card.t">
+                <img src="https://images.pexels.com/photos/33175650/pexels-photo-33175650.jpeg?auto=compress&cs=tinysrgb&w=900" alt="" loading="lazy">
+                <div class="mc">
+                  <span class="eyebrow on-dark" data-i18n="mg.card.eb">Verslo pradžia</span>
+                  <h4 class="d4" data-i18n="mg.card.t">Konsultacija verslo pradžios klausimais</h4>
+                  <p data-i18n="mg.card.d">Teisinė forma, mokesčiai, pirmieji žingsniai — aptarkime prieš steigiant, o ne po to.</p>
+                  <span class="alink on-dark"><span data-i18n="mg.card.l">Registruotis konsultacijai</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </li>
+
+        <!-- BUHALTERINĖ APSKAITA — dropdown -->
+        <li class="has-drop">
+          <a href="#" data-soon data-soon-label="nav.acc" aria-haspopup="true" aria-expanded="false"><span class="lbl" data-i18n="nav.acc">Buhalterinė apskaita</span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></a>
+          <div class="drop">
+            <a class="dd-item" href="#" data-soon data-soon-label="dd.tax.t" style="--i:0">
+              <span class="dd-ic">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></svg>
+              </span>
+              <span class="dd-tx"><b data-i18n="dd.tax.t">Mokami mokesčiai</b><small data-i18n="dd.tax.d">Kokius mokesčius ir kada moka Jūsų įmonė</small></span>
+              <svg class="dd-ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a class="dd-item" href="#" data-soon data-soon-label="dd.vat.t" style="--i:1">
+              <span class="dd-ic">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="m9 15 2 2 4-4"/></svg>
+              </span>
+              <span class="dd-tx"><b data-i18n="dd.vat.t">Registravimas PVM mokėtoju</b><small data-i18n="dd.vat.d">Prašymas, pagrindimas VMI ir palydėjimas iki sprendimo</small></span>
+              <svg class="dd-ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </li>
+
+        <!-- UŽSIENIEČIŲ ĮDARBINIMAS — dropdown dviem auditorijoms -->
+        <li class="has-drop">
+          <a href="#" data-soon data-soon-label="nav.foreign" aria-haspopup="true" aria-expanded="false"><span class="lbl" data-i18n="nav.foreign">Užsieniečių įdarbinimas</span>
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></a>
+          <div class="drop">
+            <a class="dd-item" href="#" data-soon data-soon-label="dd.emp.t" style="--i:0">
+              <span class="dd-ic">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg>
+              </span>
+              <span class="dd-tx"><b data-i18n="dd.emp.t">Darbdaviams</b><small data-i18n="dd.emp.d">Leidimai, dokumentai ir visas įdarbinimo procesas</small></span>
+              <svg class="dd-ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a class="dd-item" href="#" data-soon data-soon-label="dd.wrk.t" style="--i:1">
+              <span class="dd-ic">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2.2"/><path d="M5.5 16a3.6 3.6 0 0 1 7 0M15 10h3.5M15 14h3.5"/></svg>
+              </span>
+              <span class="dd-tx"><b data-i18n="dd.wrk.t">Darbuotojams (užsieniečiams)</b><small data-i18n="dd.wrk.d">Leidimas gyventi, darbo sutartis ir pirmieji žingsniai Lietuvoje</small></span>
+              <svg class="dd-ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </li>
+
+        <li><a href="#" data-soon data-soon-label="nav.german"><span class="lbl" data-i18n="nav.german">Vokiškos licencijos gavimas</span></a></li>
+        <li><a href="#kontaktai"><span class="lbl" data-i18n="nav.contact">Kontaktai</span></a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-cta">
+      <!-- kalbų perjungiklis -->
+      <div class="lang has-drop" id="lang">
+        <button class="lang-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Kalba">
+          <svg class="globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18"/></svg>
+          <span id="langCur">LT</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="drop" role="menu">
+          <a class="lang-opt on" href="#" role="menuitem" data-lang="lt" lang="lt" hreflang="lt" style="--i:0"><span class="lc">LT</span><span>Lietuvių</span>
+            <svg class="ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m4 12 6 6L20 6"/></svg></a>
+          <a class="lang-opt" href="#" role="menuitem" data-lang="en" lang="en" hreflang="en" style="--i:1"><span class="lc">EN</span><span>English</span>
+            <svg class="ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m4 12 6 6L20 6"/></svg></a>
+          <a class="lang-opt" href="#" role="menuitem" data-lang="de" lang="de" hreflang="de" style="--i:2"><span class="lc">DE</span><span>Deutsch</span>
+            <svg class="ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m4 12 6 6L20 6"/></svg></a>
+        </div>
+      </div>
+      <a class="btn btn-ember" href="#kontaktai"><span class="t" data-i18n="cta.quote">Gauti pasiūlymą</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="burger" id="burger" aria-label="Meniu" aria-expanded="false" aria-controls="mobile"><i></i><i></i><i></i></button>
+    </div>
+  </div>
+ </div>
+</header>
+
+<!-- ============ MOBILUS MENIU ============ -->
+<div class="mobile" id="mobile" aria-hidden="true">
+  <ul class="m-list">
+    <li><a class="m-link" href="#pradzia" data-i18n="nav.home">Pradžia</a></li>
+
+    <li>
+      <button class="m-par" type="button" aria-expanded="false"><span data-i18n="nav.services">Paslaugos</span><span class="m-pl"><i></i><i></i></span></button>
+      <div class="m-sub"><div><div class="m-in">
+        <a class="m-all" href="#paslaugos" data-i18n="m.all">Visos paslaugos</a>
+        <span class="m-h" data-i18n="mg.c1">Įmonių steigimas</span>
+        <a href="#" data-soon data-i18n="mg.c1.1">UAB, MB įmonių steigimas</a>
+        <a href="#" data-soon data-i18n="mg.c1.2">UAB, MB įmonių pardavimas</a>
+        <a href="#" data-soon data-i18n="mg.c1.3">Įmonės registracijos adresas</a>
+        <a href="#" data-soon data-i18n="mg.c1.4">Laikinojo įdarbinimo įmonių registravimas</a>
+        <span class="m-h" data-i18n="mg.c2">Pakeitimai ir teisė</span>
+        <a href="#" data-soon data-i18n="mg.c2.1">Įmonės pavadinimo keitimas</a>
+        <a href="#" data-soon data-i18n="mg.c2.2">Įstatų keitimas</a>
+        <a href="#" data-soon data-i18n="mg.c2.3">Vadovo keitimas</a>
+        <a href="#" data-soon data-i18n="mg.c2.4">Įmonės likvidavimas</a>
+        <a href="#" data-soon data-i18n="mg.c2.5">Teisinės paslaugos</a>
+        <span class="m-h" data-i18n="mg.c3">Licencijos ir dokumentai</span>
+        <a href="#" data-soon data-i18n="mg.c3.1">Transporto licencija</a>
+        <a href="#" data-soon data-i18n="mg.c3.2">A1 forma</a>
+        <a href="#" data-soon data-i18n="mg.c3.3">ESI išrašas</a>
+        <a href="#" data-soon data-i18n="mg.c3.4">JANGIS pildymas</a>
+        <a href="#" data-soon data-i18n="mg.c3.5">Darbų saugos paslaugos</a>
+        <a class="m-card" href="#" data-soon data-soon-label="mg.card.t"><small data-i18n="mg.card.eb">Verslo pradžia</small><b data-i18n="mg.card.t">Konsultacija verslo pradžios klausimais</b></a>
+      </div></div></div>
+    </li>
+
+    <li>
+      <button class="m-par" type="button" aria-expanded="false"><span data-i18n="nav.acc">Buhalterinė apskaita</span><span class="m-pl"><i></i><i></i></span></button>
+      <div class="m-sub"><div><div class="m-in">
+        <a class="m-all" href="#" data-soon data-soon-label="nav.acc" data-i18n="m.over.acc">Buhalterinė apskaita — apžvalga</a>
+        <a href="#" data-soon data-i18n="dd.tax.t">Mokami mokesčiai</a>
+        <a href="#" data-soon data-i18n="dd.vat.t">Registravimas PVM mokėtoju</a>
+      </div></div></div>
+    </li>
+
+    <li>
+      <button class="m-par" type="button" aria-expanded="false"><span data-i18n="nav.foreign">Užsieniečių įdarbinimas</span><span class="m-pl"><i></i><i></i></span></button>
+      <div class="m-sub"><div><div class="m-in">
+        <a class="m-all" href="#" data-soon data-soon-label="nav.foreign" data-i18n="m.over.for">Užsieniečių įdarbinimas — apžvalga</a>
+        <a href="#" data-soon data-i18n="dd.emp.t">Darbdaviams</a>
+        <a href="#" data-soon data-i18n="dd.wrk.t">Darbuotojams (užsieniečiams)</a>
+      </div></div></div>
+    </li>
+
+    <li><a class="m-link" href="#" data-soon data-i18n="nav.german">Vokiškos licencijos gavimas</a></li>
+    <li><a class="m-link" href="#kontaktai" data-i18n="nav.contact">Kontaktai</a></li>
+  </ul>
+
+  <div class="m-tools">
+    <div>
+      <span class="m-lang-l" data-i18n="m.lang">Kalba</span>
+      <div class="m-langs" id="mLangs">
+        <a href="#" class="on" data-lang="lt" lang="lt" hreflang="lt"><b>LT</b>Lietuvių</a>
+        <a href="#" data-lang="en" lang="en" hreflang="en"><b>EN</b>English</a>
+        <a href="#" data-lang="de" lang="de" hreflang="de"><b>DE</b>Deutsch</a>
+      </div>
+    </div>
+    <div class="mb-foot">
+      <a href="tel:+37060000000">+370 600 00000</a>
+      <a href="mailto:info@buhalterijosdemo.lt">info@buhalterijosdemo.lt</a>
+      <span data-i18n="tb.hours">I–V 8:00–17:00</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="pradzia">
+  <div class="hero-media">
+    <img src="https://images.pexels.com/photos/4175026/pexels-photo-4175026.jpeg?auto=compress&cs=tinysrgb&w=1920" alt="" fetchpriority="high">
+  </div>
+  <div class="hero-veil"></div>
+
+  <div class="hero-in wrap">
+    <span class="eyebrow on-dark">Buhalterinė apskaita · Mokesčiai · Verslo teisė</span>
+    <h1 class="d1">Skaičiai tvarkoje.<br>Verslas — <em>laisvas augti.</em></h1>
+    <p class="lead">Pilnas apskaitos ciklas, mokesčių planavimas ir verslo teisė vienoje komandoje.
+      Aiški kainodara sutartyje, asmeninis buhalteris ir atsakomybė už kiekvieną skaičių — be paslėptų mokesčių ir be paskutinės minutės skambučių.</p>
+    <div class="hero-cta">
+      <a class="btn btn-ember" href="#kontaktai"><span class="t">Nemokama konsultacija</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+
+    <div class="hero-trust">
+      <div><b>12</b><span>Metai rinkoje ir nė vienos praleistos deklaracijos</span></div>
+      <div><b>480+</b><span>Aptarnaujamų Lietuvos įmonių</span></div>
+      <div><b>4,9 / 5</b><span>Vidutinis klientų įvertinimas</span></div>
+      <div><b>24 val.</b><span>Atsakome į klausimą darbo dienomis</span></div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============ APIE / INTRO ============ -->
+<section class="sec intro" id="apie">
+  <div class="wrap intro-grid">
+    <div class="intro-media">
+      <div class="im-main">
+        <img src="https://images.pexels.com/photos/7433850/pexels-photo-7433850.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Komanda prie posėdžių stalo aptaria dokumentus" loading="lazy">
+      </div>
+      <div class="im-sub">
+        <img src="https://images.pexels.com/photos/3784295/pexels-photo-3784295.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Buhalterė dirba su dokumentais" loading="lazy">
+      </div>
+      <div class="im-badge">
+        <b>98%</b>
+        <span>klientų lieka su mumis ir antrais metais</span>
+      </div>
+    </div>
+
+    <div>
+      <span class="eyebrow">Apie mus</span>
+      <h2 class="d2">Buhalterės — verslo patarėjos, o ne tik „popierių pildytojos“</h2>
+      <p class="lead">Esame už procesų automatizavimą — dokumentus priimame elektroniniu būdu,
+        integruojamės su e. parduotuvėmis, banku ir sandėlio programomis. Bet su Jumis dirbs gyvas, konkretus buhalteris,
+        kuris žino Jūsų verslo sezoniškumą, klientus ir tai, kodėl kovo mėnesį sąskaitų visada dvigubai daugiau.</p>
+
+      <ul class="pill-list">
+        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m4 12 6 6L20 6"/></svg></span>
+          <span><b>Aiški kainodara sutartyje</b><span>Kaina fiksuojama raštu ir keičiasi tik keičiantis Jūsų dokumentų srautui — apie tai informuojame iš anksto.</span></span></li>
+        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m4 12 6 6L20 6"/></svg></span>
+          <span><b>Profesinės civilinės atsakomybės draudimas</b><span>Jei suklystame mes — klaidą ir jos pasekmes tvarkome mes. Jūsų verslas dėl to nenukenčia.</span></span></li>
+        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m4 12 6 6L20 6"/></svg></span>
+          <span><b>Keturios kalbos</b><span>Aptarnaujame lietuvių, anglų, rusų ir lenkų kalbomis — patogu tarptautinėms komandoms ir užsienio savininkams.</span></span></li>
+      </ul>
+
+      <div  style="display:flex;gap:14px;flex-wrap:wrap">
+        <a class="btn btn-brand" href="#kontaktai"><span class="t">Susipažinkime</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn-line" href="#paslaugos"><span class="t">Paslaugos</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PASLAUGOS ============ -->
+<section class="sec svc" id="paslaugos">
+  <div class="wrap">
+    <div class="head-row">
+      <div class="sec-head">
+        <span class="eyebrow">Ką darome</span>
+        <h2 class="d2">Viskas, kas susiję su skaičiais, — vienoje vietoje</h2>
+        <p class="lead">Nuo pirminio dokumento iki metinės ataskaitos ir pokalbio su banku.
+          Nereikia ieškoti atskiro buhalterio, mokesčių konsultanto ir teisininko — dirbame kaip viena komanda.</p>
+      </div>
+      <a class="alink" href="#kontaktai">Gauti pasiūlymą
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+
+    <div class="svc-list" id="svcList">
+      <a class="svc-row" href="#kontaktai">
+        <span class="svc-n">01</span>
+        <span class="svc-t">Pilna buhalterinė apskaita</span>
+        <span class="svc-d">Pirminiai dokumentai, didžioji knyga, atsargos, ilgalaikis turtas, tarpinės ataskaitos vadovui — visas ciklas kas mėnesį.</span>
+        <span class="svc-a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="svc-row" href="#kontaktai">
+        <span class="svc-n">02</span>
+        <span class="svc-t">Mokesčiai ir deklaravimas</span>
+        <span class="svc-d">PVM, GPM, Sodra, pelno mokestis, Intrastat ir OSS. Deklaracijos pateikiamos laiku, o apie terminus primename mes, ne VMI.</span>
+        <span class="svc-a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="svc-row" href="#kontaktai">
+        <span class="svc-n">03</span>
+        <span class="svc-t">Darbo užmokestis ir personalas</span>
+        <span class="svc-d">Atlyginimų skaičiavimas, darbo sutartys ir jų pakeitimai, atostogų grafikai, komandiruotės, ligos ir priedų apskaita.</span>
+        <span class="svc-a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="svc-row" href="#kontaktai">
+        <span class="svc-n">04</span>
+        <span class="svc-t">Finansinės ataskaitos ir auditas</span>
+        <span class="svc-d">Metinių finansinių ataskaitų rinkinys, teikimas Registrų centrui, pasiruošimas auditui, bankui ar investuotojui.</span>
+        <span class="svc-a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="svc-row" href="#kontaktai">
+        <span class="svc-n">05</span>
+        <span class="svc-t">Įmonių steigimas ir pertvarkymas</span>
+        <span class="svc-d">UAB, MB ir VšĮ steigimas internetu, įstatų keitimas, kapitalo didinimas, reorganizavimas ir tvarkingas likvidavimas.</span>
+        <span class="svc-a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="svc-row" href="#kontaktai">
+        <span class="svc-n">06</span>
+        <span class="svc-t">Vadybinė apskaita ir konsultacijos</span>
+        <span class="svc-d">Mokesčių scenarijų analizė, biudžetas, pinigų srautų prognozė ir ataskaitos, kurias supranta ne tik buhalteris.</span>
+        <span class="svc-a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </a>
+    </div>
+
+    <div class="sec-head" style="margin:clamp(56px,7vw,92px) 0 0">
+      <span class="eyebrow">Papildomai</span>
+      <h3 class="d3" style="margin-top:14px">Dažniausiai prireikia ir šito</h3>
+    </div>
+
+    <div class="addons">
+      <div class="acard">
+        <span class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>
+        <h4>Registravimas PVM mokėtoju</h4>
+        <p>Paruošiame prašymą, pagrindžiame veiklą VMI ir palydime iki sprendimo. Pasakome ir tada, kai registruotis dar per anksti.</p>
+      </div>
+      <div class="acard">
+        <span class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9"/></svg></span>
+        <h4>Užsieniečių įdarbinimas</h4>
+        <p>Leidimai dirbti ir laikinai gyventi, komandiravimas, „Blue Card“ — nuo dokumentų iki pirmos darbo dienos.</p>
+      </div>
+      <div class="acard">
+        <span class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></span>
+        <h4>Registracijos adresas</h4>
+        <p>Juridinis adresas Vilniuje su korespondencijos priėmimu ir skenavimu — patogu, kai veikla vyksta nuotoliniu būdu.</p>
+      </div>
+      <div class="acard">
+        <span class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 3 8v5c0 5 3.8 8.6 9 10 5.2-1.4 9-5 9-10V8z"/><path d="m9 12 2 2 4-4"/></svg></span>
+        <h4>Apskaitos atkūrimas</h4>
+        <p>Sutvarkome praeitį: atkuriame apskaitą, taisome deklaracijas ir paruošiame įmonę patikrinimui be panikos.</p>
+      </div>
+      <div class="acard">
+        <span class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
+        <h4>Buhalterijos peržiūra</h4>
+        <p>Nepriklausoma „antroji nuomonė“ apie esamą apskaitą: kur permokate mokesčių, o kur rizikuojate baudomis.</p>
+      </div>
+      <div class="acard">
+        <span class="ai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v18M5 7h14M7 7l-3 7a4 4 0 0 0 6 0zM17 7l-3 7a4 4 0 0 0 6 0z"/></svg></span>
+        <h4>Teisinės paslaugos verslui</h4>
+        <p>Sutarčių rengimas ir peržiūra, prekės ženklo registracija, transporto licencijos, akcininkų susitarimai.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KODĖL MES ============ -->
+<section class="sec why" id="kodel">
+  <div class="why-media">
+    <img src="https://images.pexels.com/videos/7317314/pexels-photo-7317314.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" loading="lazy">
+  </div>
+  <div class="wrap">
+    <div class="head-row">
+      <div class="sec-head">
+        <span class="eyebrow on-dark">Kodėl mes</span>
+        <h2 class="d2" style="color:#fff">Patikimas partneris — stabilus verslas</h2>
+        <p class="lead">Buhalterį keičiantys klientai dažniausiai mini tuos pačius tris dalykus:
+          neaiškias sąskaitas, nepasiekiamą žmogų ir „sužinojau paskutinę dieną“. Mūsų darbo tvarka sukurta taip, kad
+          nė vienas iš jų nepasikartotų.</p>
+      </div>
+      <a class="alink on-dark" href="#kontaktai">Nemokamas pokalbis
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+
+    <div class="why-grid">
+      <div class="wcard"><span class="wi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+        <h4>Jokių paslėptų mokesčių</h4>
+        <p>Kaina nurodyta sutartyje ir apima viską, kas išvardyta paslaugų sąraše. Jei darbo apimtis auga, apie kainos pokytį sužinote iš anksto, o ne sąskaitoje.</p>
+      </div>
+      <div class="wcard"><span class="wi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></span>
+        <h4>Asmeninis buhalteris</h4>
+        <p>Vienas žmogus, vienas telefono numeris, viena istorija. Nereikia kaskart iš naujo aiškinti, kuo užsiima Jūsų įmonė ir kodėl sąskaitos atrodo būtent taip.</p>
+      </div>
+      <div class="wcard"><span class="wi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 3 8v5c0 5 3.8 8.6 9 10 5.2-1.4 9-5 9-10V8z"/></svg></span>
+        <h4>Atsakome už savo darbą</h4>
+        <p>Turime profesinės civilinės atsakomybės draudimą. Jei klaida mūsų — taisome ją mes ir padengiame pasekmes, o ne aiškiname, kad „taip pateikė klientas“.</p>
+      </div>
+      <div class="wcard"><span class="wi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+        <h4>Atsakymas per 24 valandas</h4>
+        <p>Į laiškus ir žinutes atsakome per vieną darbo dieną. Skubiais mokestiniais klausimais — tą pačią dieną, nes sprendimai versle laukia retai.</p>
+      </div>
+      <div class="wcard"><span class="wi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18"/></svg></span>
+        <h4>Kalbame Jūsų kalba</h4>
+        <p>Lietuvių, anglų, rusų ir lenkų. Dokumentus ir ataskaitas paruošiame ta kalba, kuria kalba Jūsų savininkai ar investuotojai.</p>
+      </div>
+      <div class="wcard"><span class="wi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 12h6M12 9v6"/><rect x="3" y="3" width="18" height="18" rx="3"/></svg></span>
+        <h4>Lankstus nutraukimas</h4>
+        <p>Sutartį galima nutraukti be baudų ir papildomų įsipareigojimų. Duomenis ir dokumentus perduodame tvarkingai, per sutartą terminą.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SKAIČIAI ============ -->
+<section class="sec-sm stats">
+  <div class="wrap"><div class="stats-grid">
+    <div class="stat">
+      <b>480+</b><span>Aptarnaujamų įmonių visoje Lietuvoje</span>
+    </div>
+    <div class="stat">
+      <b>12</b><span>Metai nepertraukiamos praktikos</span>
+    </div>
+    <div class="stat">
+      <b>4,9<i> / 5</i></b><span>Klientų įvertinimas iš 214 atsiliepimų</span>
+    </div>
+    <div class="stat">
+      <b>100%</b><span>Deklaracijų, pateiktų iki termino</span>
+    </div>
+  </div></div>
+</section>
+
+<!-- ============ KAIP DIRBAME ============ -->
+<section class="sec steps" id="kaip">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Kaip dirbame</span>
+      <h2 class="d2">Keturi žingsniai nuo pirmo skambučio iki ramaus ketvirčio</h2>
+      <p class="lead">Perėjimas pas naują buhalterį atrodo baisiau, nei yra iš tikrųjų.
+        Štai kaip tai vyksta pas mus — įskaitant tą dalį, apie kurią dažniausiai niekas neįspėja.</p>
+    </div>
+
+    <div class="step-stack">
+      <article class="step">
+        <div class="step-n">01</div>
+        <div>
+          <h3 class="d3">Pokalbis ir įvertinimas</h3>
+          <p>Pasikalbame 30–40 minučių: ką ir kaip darote, kiek dokumentų sukuriate, kur dabar skauda.
+            Peržiūrime kelis mėnesius dokumentų ir pasakome, kiek realiai kainuos apskaita — be „nuo“ ir be žvaigždučių.</p>
+        </div>
+        <div class="step-meta">
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b>Trukmė:</b> 1–2 darbo dienos</span></div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span><b>Kaina:</b> nemokamai, be įsipareigojimų</span></div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg><span><b>Gaunate:</b> raštišką pasiūlymą su paslaugų sąrašu</span></div>
+        </div>
+      </article>
+
+      <article class="step">
+        <div class="step-n">02</div>
+        <div>
+          <h3 class="d3">Sutartis ir perėmimas</h3>
+          <p>Pasirašome sutartį su fiksuota kainodara. Perimame likučius iš ankstesnio buhalterio, patikriname jų teisingumą
+            ir apie rastus neatitikimus pranešame Jums raštu — kad vėliau jie netaptų „mūsų“ klaidomis.</p>
+        </div>
+        <div class="step-meta">
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b>Trukmė:</b> 5–10 darbo dienų</span></div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m4 12 6 6L20 6"/></svg><span><b>Galima:</b> pereiti bet kurį mėnesį, ne tik nuo sausio</span></div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span><b>Susipažįstate:</b> su savo buhalteriu ir jo pavaduotoju</span></div>
+        </div>
+      </article>
+
+      <article class="step">
+        <div class="step-n">03</div>
+        <div>
+          <h3 class="d3">Kasdienis darbas</h3>
+          <p>Dokumentus siunčiate patogiu kanalu — el. paštu, programėle arba tiesiogiai iš savo sistemos.
+            Mes tvarkome, deklaruojame, primename apie artėjančius terminus ir mokėjimus. Klausimai neatidedami „iki mėnesio pabaigos“.</p>
+        </div>
+        <div class="step-meta">
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg><span><b>Atsakymas:</b> per 24 val. darbo dienomis</span></div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg><span><b>Priminimai:</b> apie kiekvieną deklaraciją ir mokėjimą</span></div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 5-6"/></svg><span><b>Integracijos:</b> bankas, e. parduotuvė, sandėlis, kasos</span></div>
+        </div>
+      </article>
+
+      <article class="step">
+        <div class="step-n">04</div>
+        <div>
+          <h3 class="d3">Ataskaitos ir sprendimai</h3>
+          <p>Kas mėnesį gaunate trumpą ataskaitą vadovui: pelnas, skolos, mokėtini mokesčiai ir tai, į ką verta atkreipti dėmesį.
+            Kartą per ketvirtį susėdame pokalbiui apie mokesčių scenarijus ir artimiausius sprendimus.</p>
+        </div>
+        <div class="step-meta">
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 5-6"/></svg><span><b>Kas mėnesį:</b> ataskaita vadovui, 1 puslapis</span></div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg><span><b>Kas ketvirtį:</b> pokalbis apie mokesčius ir prognozę</span></div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg><span><b>Kartą per metus:</b> finansinių ataskaitų rinkinys</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ATSILIEPIMAI ============ -->
+<section class="sec revs" id="atsiliepimai">
+  <div class="wrap">
+    <div class="head-row">
+      <div class="sec-head">
+        <span class="eyebrow">Atsiliepimai</span>
+        <h2 class="d2">Patikimas partneris — stabilus verslas</h2>
+        <p class="lead">Demonstraciniai atsiliepimai — tikroje svetainėje jų vietoje bus klientų atsiliepimai
+          su įmonių pavadinimais.</p>
+      </div>
+    </div>
+  </div>
+  <div class="wrap"><div class="rev-grid">
+    <article class="rev"><span class="q">“</span>
+      <div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg></div>
+      <p>Perėjome vidury metų ir bijojome chaoso. Likučiai perimti per savaitę, o rastus ankstesnės apskaitos neatitikimus gavome surašytus raštu — pirmą kartą kas nors paaiškino, kas ten iš tikrųjų vyko.</p>
+      <div class="who"><span class="av">GK</span><div><b>Vadovas</b><span>UAB „Girios kelias“ · statyba</span></div></div>
+    </article>
+    <article class="rev"><span class="q">“</span>
+      <div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg></div>
+      <p>Turime e. parduotuvę keturiose rinkose. Anksčiau OSS deklaracijos buvo mėnesio pabaigos siaubas, dabar tai tiesiog dar viena eilutė ataskaitoje. Integracija su sistema veikė nuo pirmos dienos.</p>
+      <div class="who"><span class="av">RP</span><div><b>Savininkė</b><span>MB „Rytas prekyba“ · e. prekyba</span></div></div>
+    </article>
+    <article class="rev"><span class="q">“</span>
+      <div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg></div>
+      <p>Steigimas vyko nuotoliniu būdu, savininkai — užsienyje. Visi dokumentai buvo paruošti angliškai, o klausimus išsprendė vienas žmogus, o ne trys skirtingi skyriai.</p>
+      <div class="who"><span class="av">BC</span><div><b>Plėtros vadovas</b><span>UAB „Baltic Craft“ · gamyba</span></div></div>
+    </article>
+    <article class="rev"><span class="q">“</span>
+      <div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg></div>
+      <p>Vertiname tai, kad apie mokesčių pokyčius sužinome iš buhalterio, o ne iš naujienų portalo. Ketvirtiniai pokalbiai keletą kartų sutaupė daugiau, nei kainuoja metinis aptarnavimas.</p>
+      <div class="who"><span class="av">NL</span><div><b>Finansų vadovė</b><span>UAB „Nemuno linija“ · logistika</span></div></div>
+    </article>
+    <article class="rev"><span class="q">“</span>
+      <div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg></div>
+      <p>Dirbame su 40 darbuotojų ir nuolatine kaita. Darbo sutartys, atostogų grafikai ir Sodros ataskaitos tvarkomos taip, kad man nebereikia apie tai galvoti — tik pasirašyti.</p>
+      <div class="who"><span class="av">ŽD</span><div><b>Direktorius</b><span>UAB „Žalias diskas“ · HoReCa</span></div></div>
+    </article>
+    <article class="rev"><span class="q">“</span>
+      <div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .9-5 4.8 1.2 7L12 18l-6.2 3.2L7 14.2 2 9.4l7-.9z"/></svg></div>
+      <p>Ruošėmės investuotojo patikrinimui ir per tris savaites gavome sutvarkytą trejų metų apskaitą su paaiškinimais. Klausimų iš auditorių buvo mažiau, nei tikėjomės.</p>
+      <div class="who"><span class="av">VS</span><div><b>Įkūrėjas</b><span>UAB „Vėjo startas“ · IT</span></div></div>
+    </article>
+  </div></div>
+</section>
+
+<!-- ============ DUK ============ -->
+<section class="sec" id="duk" style="background:var(--sand)">
+  <div class="wrap faq-wrap">
+    <div class="faq-side">
+      <span class="eyebrow">DUK</span>
+      <h2 class="d2" style="margin:16px 0 20px">Klausimai, kuriuos girdime dažniausiai</h2>
+      <p class="lead">Jei Jūsų klausimo čia nėra — parašykite. Atsakome per vieną darbo dieną ir be įsipareigojimų.</p>
+      <a class="btn btn-brand" style="margin-top:26px" href="#kontaktai"><span class="t">Užduoti klausimą</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+
+    <div class="acc" id="acc">
+      <div class="acc-i open">
+        <button class="acc-q">Kiek kainuoja buhalterinė apskaita?<span class="acc-ic"><i></i><i></i></span></button>
+        <div class="acc-a"><div>Kaina priklauso nuo dokumentų srauto, darbuotojų skaičiaus, PVM statuso ir veiklos pobūdžio, todėl vienos kainos visiems nėra.
+          Tikslią sumą pasakome per 1–2 darbo dienas — peržiūrėję kelių mėnesių dokumentus. Ji įrašoma į sutartį ir nesikeičia,
+          kol nesikeičia darbo apimtis. Pirmas pokalbis ir pasiūlymas — nemokami.</div></div>
+      </div>
+      <div class="acc-i">
+        <button class="acc-q">Ar galiu pereiti pas jus vidury metų?<span class="acc-ic"><i></i><i></i></span></button>
+        <div class="acc-a"><div>Taip, ir taip nutinka dažniau nei nuo sausio. Perimame likučius iš ankstesnio buhalterio,
+          patikriname jų teisingumą ir raštu pateikiame rastus neatitikimus. Perėmimas paprastai trunka 5–10 darbo dienų,
+          o Jūsų einamieji terminai per tą laiką nenukenčia.</div></div>
+      </div>
+      <div class="acc-i">
+        <button class="acc-q">Kaip perduodu dokumentus?<span class="acc-ic"><i></i><i></i></span></button>
+        <div class="acc-a"><div>Patogiausiu Jums būdu: el. paštu, per debesų aplanką, mobiliąja programėle nufotografuojant kvitą
+          arba automatiškai iš savo sistemos. Integruojamės su populiariausiomis e. parduotuvių, kasos ir sandėlio programomis
+          bei banko išrašais. Popierinių dokumentų taip pat neatsisakome.</div></div>
+      </div>
+      <div class="acc-i">
+        <button class="acc-q">Kas nutinka, jei buhalteris suklysta?<span class="acc-ic"><i></i><i></i></span></button>
+        <div class="acc-a"><div>Klaidą taisome mes ir savo sąskaita — įskaitant patikslintų deklaracijų teikimą bei bendravimą su VMI ar Sodra.
+          Turime profesinės civilinės atsakomybės draudimą, kuris padengia dėl mūsų klaidos atsiradusius nuostolius.
+          Draudimo liudijimą pateikiame kartu su sutartimi.</div></div>
+      </div>
+      <div class="acc-i">
+        <button class="acc-q">Ar dirbate su e. prekyba ir užsienio klientais?<span class="acc-ic"><i></i><i></i></span></button>
+        <div class="acc-a"><div>Taip. Tvarkome OSS ir Intrastat ataskaitas, ES ir trečiųjų šalių sandorius, kelių valiutų apskaitą,
+          grąžinimus bei prekybos platformų ataskaitas. Užsienio savininkams dokumentus ir ataskaitas paruošiame anglų kalba.</div></div>
+      </div>
+      <div class="acc-i">
+        <button class="acc-q">Kada verta registruotis PVM mokėtoju?<span class="acc-ic"><i></i><i></i></span></button>
+        <div class="acc-a"><div>Privaloma — peržengus įstatyme nustatytą 12 mėnesių pajamų ribą arba įsigyjant prekių iš ES virš nustatytos sumos.
+          Savanoriškai verta svarstyti tada, kai dauguma Jūsų klientų patys yra PVM mokėtojai arba planuojate stambias investicijas.
+          Prieš registraciją visada suskaičiuojame abu scenarijus — kartais laukti yra pigiau.</div></div>
+      </div>
+      <div class="acc-i">
+        <button class="acc-q">Ar padedate steigiant įmonę?<span class="acc-ic"><i></i><i></i></span></button>
+        <div class="acc-a"><div>Taip. Rezervuojame pavadinimą, paruošiame steigimo dokumentus, padedame su elektroniniu parašu,
+          registracijos adresu ir banko sąskaitos atidarymu. Steigimas internetu paprastai trunka 1–3 darbo dienas.
+          Kartu aptariame, kuri teisinė forma ir mokestinis modelis Jūsų atveju bus pigiausias.</div></div>
+      </div>
+      <div class="acc-i">
+        <button class="acc-q">Kaip nutraukiama sutartis?<span class="acc-ic"><i></i><i></i></span></button>
+        <div class="acc-a"><div>Įspėjus prieš vieną mėnesį, be baudų ir papildomų mokesčių. Perduodame visus duomenis, dokumentus
+          ir apskaitos registrus tokiu formatu, kurį priims naujas buhalteris. Laikome, kad klientas turi likti dėl kokybės, o ne dėl sutarties sąlygų.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BLOGAS ============ -->
+<section class="sec-sm" id="blogas">
+  <div class="wrap">
+    <div class="head-row">
+      <div class="sec-head">
+        <span class="eyebrow">Blogas</span>
+        <h2 class="d2">Apie mokesčius — žmonių kalba</h2>
+      </div>
+      <a class="alink" href="#">Visi straipsniai
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <div class="posts">
+      <article class="post">
+        <a href="#"><div class="post-ph"><span class="cat">PVM</span>
+          <img src="https://images.pexels.com/photos/8927687/pexels-photo-8927687.jpeg?auto=compress&cs=tinysrgb&w=900" alt="" loading="lazy"></div>
+        <div class="post-b"><span class="date">2026 m. rugpjūčio 14 d. · 6 min.</span>
+          <h4>PVM riba: kada registruotis ir ko nedaryti paskutinę savaitę</h4>
+          <p>Trys tipinės klaidos, kurias įmonės daro artėdamos prie ribos, ir kodėl skubota registracija kartais brangesnė už savanorišką.</p>
+          <span class="alink">Skaityti<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </div></a>
+      </article>
+      <article class="post">
+        <a href="#"><div class="post-ph"><span class="cat">Darbo užmokestis</span>
+          <img src="https://images.pexels.com/photos/7691692/pexels-photo-7691692.jpeg?auto=compress&cs=tinysrgb&w=900" alt="" loading="lazy"></div>
+        <div class="post-b"><span class="date">2026 m. liepos 29 d. · 8 min.</span>
+          <h4>GPM ir Sodra: ką verta peržiūrėti darbo užmokesčio politikoje jau dabar</h4>
+          <p>Priedai, naudos natūra, nuotolinio darbo kompensacijos — kur dažniausiai atsiranda nedeklaruotų pajamų rizika.</p>
+          <span class="alink">Skaityti<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </div></a>
+      </article>
+      <article class="post">
+        <a href="#"><div class="post-ph"><span class="cat">Ataskaitos</span>
+          <img src="https://images.pexels.com/photos/7658352/pexels-photo-7658352.jpeg?auto=compress&cs=tinysrgb&w=900" alt="" loading="lazy"></div>
+        <div class="post-b"><span class="date">2026 m. birželio 3 d. · 5 min.</span>
+          <h4>Metinė finansinė ataskaita per penkis žingsnius, be paskutinės nakties</h4>
+          <p>Ką paruošti dar spalį, kokius likučius suderinti su tiekėjais ir kodėl inventorizacija nėra formalumas.</p>
+          <span class="alink">Skaityti<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </div></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="sec cta">
+  <div class="cta-media">
+    <img src="https://images.pexels.com/videos/8471105/pexels-photo-8471105.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" loading="lazy">
+  </div>
+  <div class="wrap">
+    <span class="eyebrow on-dark" style="justify-content:center">Pradėkime</span>
+    <h2 class="d2" style="margin-top:18px">Pirmas pokalbis nieko nekainuoja — o dažnai sutaupo daugiau, nei tikitės</h2>
+    <p>Papasakokite, kaip veikia Jūsų verslas. Peržiūrėsime kelis mėnesius dokumentų,
+      pasakysime tikslią kainą ir tai, ką dabartinėje apskaitoje verta taisyti — net jei nuspręsite likti su esamu buhalteriu.</p>
+    <div class="cta-btns">
+      <a class="btn btn-white" href="#kontaktai"><span class="t">Užsisakyti konsultaciją</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn btn-ghost" href="tel:+37060000000"><span class="t">+370 600 00000</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KONTAKTAI ============ -->
+<section class="sec" id="kontaktai">
+  <div class="wrap contact-grid">
+    <div>
+      <span class="eyebrow">Kontaktai</span>
+      <h2 class="d2" style="margin:16px 0 20px">Susisiekime</h2>
+      <p class="lead">Atsakome darbo dienomis per 24 valandas. Jei klausimas skubus — skambinkite,
+        telefonu dažniausiai atsakome iš karto.</p>
+
+      <div class="cinfo">
+        <a href="tel:+37060000000">
+          <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.4 2.1L8.1 9.6a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.4c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2Z"/></svg></span>
+          <span><b>Telefonas</b><span>+370 600 00000</span></span></a>
+        <a href="mailto:info@buhalterijosdemo.lt">
+          <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg></span>
+          <span><b>El. paštas</b><span>info@buhalterijosdemo.lt</span></span></a>
+        <a href="https://www.google.com/maps/search/?api=1&query=Lvivo+g.+3%2C+Vilnius" target="_blank" rel="noopener">
+          <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>
+          <span><b>Biuras</b><span>Lvivo g. 3-12, LT-07156 Vilnius</span></span></a>
+        <div>
+          <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+          <span><b>Darbo laikas</b><span>I–V 8:00–17:00 · VI–VII nedirbame</span></span></div>
+      </div>
+
+      <div class="map-card">
+        <img src="https://images.pexels.com/photos/34246394/pexels-photo-34246394.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Vilniaus verslo rajono panorama nuo Neries" loading="lazy">
+        <span class="map-tag"><b>Lvivo g. 3-12, Vilnius</b> · WordPress versijoje čia bus Google Maps žemėlapis</span>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Lvivo+g.+3%2C+Vilnius" target="_blank" rel="noopener">Atidaryti Google Maps
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+      </div>
+    </div>
+
+    <form class="form" onsubmit="return false">
+      <h3 class="d3" style="margin-bottom:8px">Gaukite pasiūlymą</h3>
+      <p class="small" style="margin-bottom:26px">Užpildykite formą — susisieksime per vieną darbo dieną su konkrečia kaina ir paslaugų sąrašu.</p>
+      <div class="f-row">
+        <div class="fld"><input type="text" id="fName" placeholder=" " autocomplete="name"><label for="fName">Vardas, pavardė</label></div>
+        <div class="fld"><input type="text" id="fComp" placeholder=" " autocomplete="organization"><label for="fComp">Įmonės pavadinimas</label></div>
+      </div>
+      <div class="f-row">
+        <div class="fld"><input type="email" id="fMail" placeholder=" " autocomplete="email"><label for="fMail">El. paštas</label></div>
+        <div class="fld"><input type="tel" id="fTel" placeholder=" " autocomplete="tel"><label for="fTel">Telefonas</label></div>
+      </div>
+      <div class="f-row">
+        <div class="fld"><select id="fSvc">
+            <option>Pilna buhalterinė apskaita</option>
+            <option>Mokesčiai ir deklaravimas</option>
+            <option>Darbo užmokestis ir personalas</option>
+            <option>Metinė finansinė ataskaita</option>
+            <option>Įmonės steigimas</option>
+            <option>Kita / dar nežinau</option>
+          </select><label for="fSvc">Dominanti paslauga</label></div>
+        <div class="fld"><select id="fSize">
+            <option>Dar nesu įsteigęs (-usi)</option>
+            <option>0–2 darbuotojai</option>
+            <option>3–10 darbuotojų</option>
+            <option>11–30 darbuotojų</option>
+            <option>Daugiau nei 30</option>
+          </select><label for="fSize">Įmonės dydis</label></div>
+      </div>
+      <div class="fld"><textarea id="fMsg" placeholder=" "></textarea><label for="fMsg">Trumpai apie veiklą ir dokumentų srautą</label></div>
+      <label class="check"><input type="checkbox"><span>Sutinku, kad mano duomenys būtų naudojami atsakymui pateikti. Susipažinau su privatumo politika.</span></label>
+      <button class="btn btn-brand" type="submit"><span class="t">Siųsti užklausą</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <p class="form-note">Tai dizaino maketas — forma duomenų nesiunčia.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ============ PORAŠTĖ ============ -->
+<footer>
+  <div class="wrap f-top">
+    <div class="f-brand">
+      <a class="logo" href="#pradzia" aria-label="Juristik — į puslapio viršų">
+        <img src="logo/juristik-logo-white.png" alt="Juristik" width="900" height="288" loading="lazy">
+      </a>
+      <p>Buhalterinė apskaita, mokesčių planavimas ir verslo teisė mažoms bei vidutinėms Lietuvos įmonėms.</p>
+      <div class="f-req">
+        Avelianaris, UAB<br>
+        Įmonės kodas 306383900<br>
+        PVM mokėtojo kodas LT100017220013<br>
+        Lvivo g. 3-12, LT-07156 Vilnius
+      </div>
+      <div class="f-soc">
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V5h-3c-2.2 0-4 1.8-4 4v2H7v4h3v8h4v-8h3l1-4h-4V9c0-.6.4-1 1-1z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0M.24 8.2h4.5V24H.24zM8.5 8.2h4.3v2.2h.06c.6-1.1 2.06-2.3 4.24-2.3 4.53 0 5.37 2.9 5.37 6.7V24h-4.5v-7.4c0-1.77-.03-4.05-2.5-4.05-2.5 0-2.88 1.93-2.88 3.92V24H8.5z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+      </div>
+    </div>
+    <div>
+      <h5>Paslaugos</h5>
+      <ul>
+        <li><a href="#" data-soon>Įmonių steigimas</a></li>
+        <li><a href="#" data-soon>Buhalterinė apskaita</a></li>
+        <li><a href="#" data-soon>Užsieniečių įdarbinimas</a></li>
+        <li><a href="#" data-soon>Vokiškos licencijos gavimas</a></li>
+        <li><a href="#" data-soon>Transporto licencija</a></li>
+        <li><a href="#" data-soon>Teisinės paslaugos</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Įmonė</h5>
+      <ul>
+        <li><a href="#apie">Apie mus</a></li>
+        <li><a href="#atsiliepimai">Atsiliepimai</a></li>
+        <li><a href="#blogas">Blogas</a></li>
+        <li><a href="#duk">DUK</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Kontaktai</h5>
+      <ul>
+        <li><a href="tel:+37060000000">+370 600 00000</a></li>
+        <li><a href="mailto:info@buhalterijosdemo.lt">info@buhalterijosdemo.lt</a></li>
+        <li>Lvivo g. 3-12, Vilnius</li>
+        <li>I–V 8:00–17:00</li>
+      </ul>
+      <a class="btn btn-ember" style="margin-top:22px" href="#kontaktai"><span class="t">Gauti pasiūlymą</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </div>
+
+  <div class="wrap"><div class="f-bot">
+    <span>© 2026 Avelianaris, UAB · Dizaino maketas</span>
+    <span class="f-langs" aria-label="Kalba">
+      <a href="#" class="on" data-lang="lt" lang="lt" hreflang="lt">LT</a><a href="#" data-lang="en" lang="en" hreflang="en">EN</a><a href="#" data-lang="de" lang="de" hreflang="de">DE</a>
+    </span>
+    <span style="display:flex;gap:20px;flex-wrap:wrap">
+      <a href="#" data-soon>Privatumo politika</a><a href="#" data-soon>Slapukai</a><a href="#" data-soon>Paslaugų sąlygos</a>
+    </span>
+  </div></div>
+</footer>
+
+<nav class="mbar" id="mbar" aria-label="Greiti veiksmai">
+  <a href="tel:+37060000000"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.4 2.1L8.1 9.6a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.4c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2Z"/></svg>Skambinti</a>
+  <a class="p" href="#kontaktai"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Gauti pasiūlymą</a>
+</nav>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><i></i><span></span></div>
+
+<script>
+(function(){
+'use strict';
+/* Konservatyvi, statiška versija: čia tik FUNKCINIS kodas — meniu, kalbos, akordeonas. Jokių parallax, įslinkimo animacijų, skaitiklių ar žymeklio efektų. */
+const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $  = (s,c)=> (c||document).querySelector(s);
+const $$ = (s,c)=> Array.from((c||document).querySelectorAll(s));
+
+/* ---------- 1. Antraštės būsena ---------- */
+const hdr = $('#hdr'), hero = $('.hero'), mbar = $('#mbar');
+function onScroll(){
+  const y = window.scrollY, atTop = y <= 40;
+  const overHero = hero ? hero.getBoundingClientRect().bottom > 110 : false;
+  hdr.classList.toggle('solid', !atTop);
+  hdr.classList.toggle('on-hero', overHero && atTop);        // permatoma tik pačiame viršuje — kaip Salient „Transparent Header“
+  if(mbar) mbar.classList.toggle('on', !overHero && !document.body.classList.contains('menu-open'));
+}
+window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+/* ---------- 2. Pranešimas (toast) ---------- */
+const toastEl = $('#toast'); let toastT = 0;
+function showToast(msg){
+  if(!toastEl) return;
+  toastEl.querySelector('span').textContent = msg;
+  toastEl.classList.add('on');
+  clearTimeout(toastT); toastT = setTimeout(()=>toastEl.classList.remove('on'), 4200);
+}
+
+/* ---------- 3. Meniu kalbos (LT · EN · DE) ----------
+   Makete perjungiami tik meniu tekstai — taip matyti, kad ilgi EN / DE punktai telpa.
+   Tikroje svetainėje kalbą keičia WPML arba Polylang (atskiri /en/ ir /de/ puslapiai). */
+const I18N = {
+  lt:{
+    'tb.consult':'Nemokama konsultacija','tb.hours':'I–V 8:00–17:00',
+    'nav.home':'Pradžia','nav.services':'Paslaugos','nav.acc':'Buhalterinė apskaita',
+    'nav.foreign':'Užsieniečių įdarbinimas','nav.german':'Vokiškos licencijos gavimas','nav.contact':'Kontaktai',
+    'cta.quote':'Gauti pasiūlymą',
+    'mg.c1':'Įmonių steigimas','mg.c1.1':'UAB, MB įmonių steigimas','mg.c1.2':'UAB, MB įmonių pardavimas',
+    'mg.c1.3':'Įmonės registracijos adresas','mg.c1.4':'Laikinojo įdarbinimo įmonių registravimas',
+    'mg.c2':'Pakeitimai ir teisė','mg.c2.1':'Įmonės pavadinimo keitimas','mg.c2.2':'Įstatų keitimas',
+    'mg.c2.3':'Vadovo keitimas','mg.c2.4':'Įmonės likvidavimas','mg.c2.5':'Teisinės paslaugos',
+    'mg.c3':'Licencijos ir dokumentai','mg.c3.1':'Transporto licencija','mg.c3.2':'A1 forma',
+    'mg.c3.3':'ESI išrašas','mg.c3.4':'JANGIS pildymas','mg.c3.5':'Darbų saugos paslaugos',
+    'mg.card.eb':'Verslo pradžia','mg.card.t':'Konsultacija verslo pradžios klausimais',
+    'mg.card.d':'Teisinė forma, mokesčiai, pirmieji žingsniai — aptarkime prieš steigiant, o ne po to.',
+    'mg.card.l':'Registruotis konsultacijai',
+    'dd.tax.t':'Mokami mokesčiai','dd.tax.d':'Kokius mokesčius ir kada moka Jūsų įmonė',
+    'dd.vat.t':'Registravimas PVM mokėtoju','dd.vat.d':'Prašymas, pagrindimas VMI ir palydėjimas iki sprendimo',
+    'dd.emp.t':'Darbdaviams','dd.emp.d':'Leidimai, dokumentai ir visas įdarbinimo procesas',
+    'dd.wrk.t':'Darbuotojams (užsieniečiams)','dd.wrk.d':'Leidimas gyventi, darbo sutartis ir pirmieji žingsniai Lietuvoje',
+    'm.all':'Visos paslaugos','m.over.acc':'Buhalterinė apskaita — apžvalga','m.over.for':'Užsieniečių įdarbinimas — apžvalga','m.lang':'Kalba',
+    'toast.soon':'„{x}“ — vidinis puslapis bus sukurtas kitame etape.',
+    'toast.lang':''
+  },
+  en:{
+    'tb.consult':'Free consultation','tb.hours':'Mon–Fri 8:00–17:00',
+    'nav.home':'Home','nav.services':'Services','nav.acc':'Accounting',
+    'nav.foreign':'Employment of foreigners','nav.german':'Obtaining a German licence','nav.contact':'Contact',
+    'cta.quote':'Get a quote',
+    'mg.c1':'Company formation','mg.c1.1':'UAB, MB company formation','mg.c1.2':'UAB, MB companies for sale',
+    'mg.c1.3':'Registered office address','mg.c1.4':'Registration of temporary employment agencies',
+    'mg.c2':'Changes & legal','mg.c2.1':'Company name change','mg.c2.2':'Amendment of articles of association',
+    'mg.c2.3':'Change of director','mg.c2.4':'Company liquidation','mg.c2.5':'Legal services',
+    'mg.c3':'Licences & documents','mg.c3.1':'Transport licence','mg.c3.2':'A1 certificate',
+    'mg.c3.3':'ESI certified extract','mg.c3.4':'JANGIS filing','mg.c3.5':'Occupational safety services',
+    'mg.card.eb':'Starting a business','mg.card.t':'Business start-up consultation',
+    'mg.card.d':'Legal form, taxes, first steps — let’s discuss them before you set up, not after.',
+    'mg.card.l':'Book a consultation',
+    'dd.tax.t':'Taxes payable','dd.tax.d':'Which taxes your company pays, and when',
+    'dd.vat.t':'VAT registration','dd.vat.d':'Application, justification and support until the decision',
+    'dd.emp.t':'For employers','dd.emp.d':'Permits, documents and the entire hiring process',
+    'dd.wrk.t':'For employees (foreign nationals)','dd.wrk.d':'Residence permit, employment contract and first steps in Lithuania',
+    'm.all':'All services','m.over.acc':'Accounting — overview','m.over.for':'Employment of foreigners — overview','m.lang':'Language',
+    'toast.soon':'“{x}” — this inner page will be created at the next stage.',
+    'toast.lang':'English content will be prepared at the next stage — the mockup shows Lithuanian texts.'
+  },
+  de:{
+    'tb.consult':'Kostenlose Beratung','tb.hours':'Mo–Fr 8:00–17:00',
+    'nav.home':'Startseite','nav.services':'Leistungen','nav.acc':'Buchhaltung',
+    'nav.foreign':'Beschäftigung von Ausländern','nav.german':'Deutsche Lizenz erhalten','nav.contact':'Kontakt',
+    'cta.quote':'Angebot anfordern',
+    'mg.c1':'Firmengründung','mg.c1.1':'Gründung von UAB und MB','mg.c1.2':'Verkauf von UAB und MB',
+    'mg.c1.3':'Firmensitzadresse','mg.c1.4':'Registrierung von Zeitarbeitsfirmen',
+    'mg.c2':'Änderungen & Recht','mg.c2.1':'Änderung des Firmennamens','mg.c2.2':'Satzungsänderung',
+    'mg.c2.3':'Geschäftsführerwechsel','mg.c2.4':'Liquidation des Unternehmens','mg.c2.5':'Rechtsdienstleistungen',
+    'mg.c3':'Lizenzen & Dokumente','mg.c3.1':'Transportlizenz','mg.c3.2':'A1-Bescheinigung',
+    'mg.c3.3':'ESI-Registerauszug','mg.c3.4':'JANGIS-Meldung','mg.c3.5':'Arbeitsschutz',
+    'mg.card.eb':'Unternehmensstart','mg.card.t':'Gründungsberatung',
+    'mg.card.d':'Rechtsform, Steuern, erste Schritte — besprechen wir das vor der Gründung, nicht danach.',
+    'mg.card.l':'Beratung buchen',
+    'dd.tax.t':'Zu zahlende Steuern','dd.tax.d':'Welche Steuern Ihr Unternehmen wann zahlt',
+    'dd.vat.t':'Umsatzsteuer-Registrierung','dd.vat.d':'Antrag, Begründung und Begleitung bis zum Bescheid',
+    'dd.emp.t':'Für Arbeitgeber','dd.emp.d':'Genehmigungen, Dokumente und der gesamte Einstellungsprozess',
+    'dd.wrk.t':'Für Arbeitnehmer (Ausländer)','dd.wrk.d':'Aufenthaltstitel, Arbeitsvertrag und erste Schritte in Litauen',
+    'm.all':'Alle Leistungen','m.over.acc':'Buchhaltung — Überblick','m.over.for':'Beschäftigung von Ausländern — Überblick','m.lang':'Sprache',
+    'toast.soon':'„{x}“ — diese Unterseite wird in der nächsten Phase erstellt.',
+    'toast.lang':'Deutsche Inhalte folgen in der nächsten Phase — das Mockup zeigt litauische Texte.'
+  }
+};
+let LANG = 'lt';
+const T = k => (I18N[LANG] && I18N[LANG][k] != null) ? I18N[LANG][k] : (I18N.lt[k] || '');
+function applyLang(code, silent){
+  if(!I18N[code]) return;
+  LANG = code;
+  $$('[data-i18n]').forEach(el=>{ const v = I18N[code][el.dataset.i18n]; if(v != null) el.textContent = v; });
+  document.documentElement.setAttribute('data-lang', code);
+  const cur = $('#langCur'); if(cur) cur.textContent = code.toUpperCase();
+  $$('[data-lang]').forEach(a=> a.classList.toggle('on', a.dataset.lang === code));
+  if(!silent && I18N[code]['toast.lang']) showToast(I18N[code]['toast.lang']);
+}
+$$('[data-lang]').forEach(a=> a.addEventListener('click', e=>{
+  e.preventDefault(); applyLang(a.dataset.lang);
+  const lg = $('#lang'); if(lg) lg.classList.remove('open');
+}));
+
+/* ---------- 4. Išskleidžiami skydeliai: klaviatūra, lietimas, aria ---------- */
+(function(){
+  const parents = $$('#menu > li.has-mega, #menu > li.has-drop').concat($('#lang') ? [$('#lang')] : []);
+  const trigOf = p => p.querySelector(':scope > a, :scope > button');
+  const setExp = (p,v)=>{ const t = trigOf(p); if(t) t.setAttribute('aria-expanded', v ? 'true' : 'false'); };
+  const closeAll = except => parents.forEach(p=>{ if(p !== except){ p.classList.remove('open'); setExp(p,false); } });
+  const isTouch = () => window.matchMedia('(hover:none),(pointer:coarse)').matches;
+
+  parents.forEach(p=>{
+    const trig = trigOf(p); if(!trig) return;
+    p.addEventListener('mouseenter', ()=> setExp(p,true));
+    p.addEventListener('mouseleave', ()=>{ p.classList.remove('open','suppress'); setExp(p,false); });
+    p.addEventListener('focusin',  ()=> setExp(p,true));
+    // .open čia NEnuimamas: lietimo įrenginiuose po bakstelėjimo fokusas dingsta ir skydelis užsidarytų iškart.
+    p.addEventListener('focusout', e=>{ if(!p.contains(e.relatedTarget) && !p.classList.contains('open')) setExp(p,false); });
+    trig.addEventListener('click', e=>{
+      const isBtn = trig.tagName === 'BUTTON';
+      if(isTouch() || isBtn){
+        if(!p.classList.contains('open')){           // pirmas bakstelėjimas — atidaro
+          e.preventDefault(); e.stopImmediatePropagation();
+          closeAll(p); p.classList.add('open'); setExp(p,true);
+        } else { p.classList.remove('open'); setExp(p,false); }   // antras — uždaro; nuoroda veikia toliau
+      } else if(trig.getAttribute('href') && trig.getAttribute('href').length > 1){
+        p.classList.add('suppress');                 // paspaudus punktą skydelis neužstoja turinio
+      }
+    });
+  });
+  document.addEventListener('click', e=>{ if(!e.target.closest('#menu > li, #lang')) closeAll(); });
+  addEventListener('keydown', e=>{
+    if(e.key !== 'Escape') return;
+    closeAll(); if(document.activeElement && document.activeElement.closest('#hdr')) document.activeElement.blur();
+  });
+  // pelės paspaudimas nepalieka fokuso skydelyje (kitaip :focus-within laikytų jį atvertą)
+  hdr && hdr.addEventListener('click', e=>{ const a = e.target.closest('a,button'); if(a && e.detail > 0) setTimeout(()=>a.blur(), 0); });
+})();
+
+/* ---------- 5. Nuorodos į dar nesukurtus vidinius puslapius ---------- */
+document.addEventListener('click', e=>{
+  const a = e.target.closest('[data-soon]'); if(!a) return;
+  e.preventDefault();
+  const inner = a.querySelector('[data-i18n]');
+  const key = a.dataset.soonLabel || a.dataset.i18n || (inner ? inner.dataset.i18n : '');
+  const label = (key && T(key)) || a.textContent.trim();
+  showToast(T('toast.soon').replace('{x}', label));
+});
+
+/* ---------- 6. Mobilus meniu su akordeonu ---------- */
+const burger = $('#burger'), mobile = $('#mobile');
+function setMenu(open){
+  document.body.classList.toggle('menu-open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+  if(burger) burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  if(mobile) mobile.setAttribute('aria-hidden', open ? 'false' : 'true');
+  onScroll();
+}
+function closeMenu(){ setMenu(false); }
+burger && burger.addEventListener('click', ()=> setMenu(!document.body.classList.contains('menu-open')));
+$$('#mobile .m-par').forEach(btn=> btn.addEventListener('click', ()=>{
+  const li = btn.parentElement, willOpen = !li.classList.contains('open');
+  $$('#mobile .m-list > li.open').forEach(o=>{ o.classList.remove('open'); const b = $('.m-par', o); if(b) b.setAttribute('aria-expanded','false'); });
+  if(willOpen){ li.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+}));
+$$('#mobile a').forEach(a=> a.addEventListener('click', ()=>{
+  if(a.hasAttribute('data-soon') || a.hasAttribute('data-lang')) return;   // meniu lieka atvertas
+  closeMenu();
+}));
+addEventListener('resize', ()=>{ if(innerWidth > 1365 && document.body.classList.contains('menu-open')) closeMenu(); });
+
+/* ---------- 7. DUK akordeonas ---------- */
+$$('#acc .acc-i').forEach(item=>{
+  const q = $('.acc-q', item), a = $('.acc-a', item);
+  q.setAttribute('aria-expanded', item.classList.contains('open') ? 'true' : 'false');
+  if(item.classList.contains('open')) a.style.maxHeight = a.scrollHeight + 'px';
+  q.addEventListener('click', ()=>{
+    const open = item.classList.contains('open');
+    $$('#acc .acc-i').forEach(i=>{ i.classList.remove('open'); $('.acc-a', i).style.maxHeight = null; $('.acc-q', i).setAttribute('aria-expanded','false'); });
+    if(!open){ item.classList.add('open'); a.style.maxHeight = a.scrollHeight + 'px'; q.setAttribute('aria-expanded','true'); }
+  });
+});
+addEventListener('resize', ()=>{
+  const o = $('#acc .acc-i.open'); if(o) $('.acc-a', o).style.maxHeight = $('.acc-a', o).scrollHeight + 'px';
+});
+
+/* ---------- 8. ESC uždaro mobilų meniu ---------- */
+addEventListener('keydown', e=>{ if(e.key === 'Escape' && document.body.classList.contains('menu-open')) closeMenu(); });
+
+/* ---------- 9. Vidinių nuorodų slinkimas su lipnios antraštės poslinkiu ---------- */
+$$('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click', e=>{
+    const id = a.getAttribute('href');
+    if(id.length < 2 || a.hasAttribute('data-soon') || a.hasAttribute('data-lang')) return;
+    const t = document.querySelector(id); if(!t) return;
+    e.preventDefault();
+    const top = t.getBoundingClientRect().top + window.scrollY - 76;
+    window.scrollTo({top, behavior: RM ? 'auto' : 'smooth'});
+  });
+});
+})();
+</script>
+</body>
+</html>

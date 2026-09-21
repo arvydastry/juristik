@@ -1,0 +1,4 @@
+# BUHALTERIJOS DEMO — dizaino prototipas (demo klientui).
+# Šis puslapis NĖRA produkcinė svetainė ir neturi būti indeksuojamas.
+User-agent: *
+Disallow: /

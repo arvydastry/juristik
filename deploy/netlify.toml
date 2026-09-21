@@ -1,0 +1,31 @@
+# BUHALTERIJOS DEMO — dizaino prototipo deploy'as
+# Statinis puslapis, be build žingsnio.
+
+[build]
+  publish = "."
+  command = ""
+
+# Prototipas neturi patekti į paieškos sistemas
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Nuotraukos guli vietoje — galima kešuoti ilgam; logotipui trumpesnis kešas (gali keistis)
+[[headers]]
+  for = "/nuotraukos/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/logo/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
